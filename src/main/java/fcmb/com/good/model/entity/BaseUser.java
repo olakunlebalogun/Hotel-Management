@@ -24,5 +24,4 @@ public class BaseUser extends BaseEntity {
     private String rent;
 
 
-
 }
