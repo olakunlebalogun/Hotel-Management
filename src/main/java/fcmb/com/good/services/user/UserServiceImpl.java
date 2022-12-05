@@ -61,10 +61,13 @@ public class UserServiceImpl  implements UserService {
 
     @Override
     public ApiResponse<UserResponse> addUsers(@RequestBody UserRequest request) {
+
+
         User user = Mapper.convertObject(request,User.class);
         user=userRepository.save(user);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(user,UserResponse.class));
+
     }
 
     @Override
