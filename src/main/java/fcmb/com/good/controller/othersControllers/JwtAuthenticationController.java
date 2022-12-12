@@ -7,7 +7,6 @@ import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.utills.JwtUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,9 +40,9 @@ public class JwtAuthenticationController {
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
             );
         } catch (Exception ex) {
-            throw new Exception("inavalid username/password");
+            throw new Exception("Invalid username/password");
         }
-        return jwtUtil.generateToken(authRequest.getUsername());
+        return jwtUtil.generateToken(authRequest.getUsername(), authRequest.getRole());
     }
 
 

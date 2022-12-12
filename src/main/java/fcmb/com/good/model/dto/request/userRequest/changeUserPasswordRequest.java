@@ -14,7 +14,7 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_PASSWORD;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class changePasswordRequest {
+public class changeUserPasswordRequest {
 
     @NotNull(message = INVALID_PASSWORD)
     @NotEmpty(message = INVALID_PASSWORD)

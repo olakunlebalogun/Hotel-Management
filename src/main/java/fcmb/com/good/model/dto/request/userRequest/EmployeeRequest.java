@@ -39,6 +39,10 @@ public class EmployeeRequest  {
         @NotEmpty(message = INVALID_PHONE)
         String phone;
 
+        @NotNull(message = INVALID_PHONE)
+        @NotEmpty(message = INVALID_PHONE)
+        String photo;
+
         @NotNull(message = INVALID_DESIGNATION)
         @NotEmpty(message = INVALID_DESIGNATION)
         String designation;
