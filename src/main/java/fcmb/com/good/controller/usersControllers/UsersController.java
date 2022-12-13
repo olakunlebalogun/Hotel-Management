@@ -7,7 +7,6 @@ import fcmb.com.good.services.others.UploadService;
 import fcmb.com.good.services.user.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -119,10 +118,10 @@ public class UsersController  {
     }
 
     @PostMapping(ADD_IMAGE)
-    @ApiOperation(value = "Upload profile picture of the dealer", response = String.class,
+    @ApiOperation(value = "Upload profile picture of User", response = String.class,
             produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
-        return uploadService.uploadFile(file);
+    public ApiResponse<UserResponse> uploadFile(@RequestPart(value = "file", required = true)UUID uuid, UserRequest request, MultipartFile file) throws IOException {
+        return uploadService.uploadFile(uuid,request,file);
     }
 
 

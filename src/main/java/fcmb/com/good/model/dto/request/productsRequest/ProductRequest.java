@@ -25,7 +25,7 @@ public class ProductRequest  {
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String price;
+     Double price;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)

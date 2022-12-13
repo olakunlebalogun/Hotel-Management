@@ -25,6 +25,10 @@ public class AccountChart extends BaseEntity {
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
     private Customer customer;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "accountCategory_Id", insertable = false, updatable = false)
+    private AccountCategory accountCategory;
+
     public AccountChart(){
 
     }

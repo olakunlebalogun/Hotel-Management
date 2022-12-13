@@ -2,6 +2,8 @@ package fcmb.com.good.model.entity.transaction;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.products.Products;
+import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,11 +28,13 @@ public class Booking extends BaseEntity {
     private Date check_out_date;
     private String night;
 
-    //@JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Customer customer;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "room_id", insertable = false, updatable = false)
+    private Rooms rooms;
 
     public Booking(){
 

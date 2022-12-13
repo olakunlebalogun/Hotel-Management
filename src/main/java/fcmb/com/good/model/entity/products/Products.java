@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,18 +20,17 @@ public class Products extends BaseEntity {
     private String name;
     private String description;
     private String quantity;
-    private String price;
+    private Double price;
     private String category;
-    private String posted_by;
     private String code;
     private String location;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    @JoinColumn(name = "customer_Id", insertable = false, updatable = false)
     private Customer customer;
 
-    public Products(){}
 
+    public Products(){}
 
 
 }

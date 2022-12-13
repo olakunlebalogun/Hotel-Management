@@ -9,7 +9,6 @@ import fcmb.com.good.model.dto.request.othersRequest.AuthRequest;
 import fcmb.com.good.model.dto.request.userRequest.UserRequest;
 import fcmb.com.good.model.dto.request.userRequest.changeUserPasswordRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.dto.response.userResponse.UserResponse;
 import fcmb.com.good.model.dto.response.userResponse.changeUserPasswordResponse;
 import fcmb.com.good.model.dto.response.userResponse.forgotUserPasswordResponse;

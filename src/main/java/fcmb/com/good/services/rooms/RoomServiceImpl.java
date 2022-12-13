@@ -72,7 +72,7 @@ public class RoomServiceImpl implements RoomService {
         rooms.setRoom_description(request.getRoom_description());
         rooms.setPrice(request.getPrice());
         rooms.setRoom_status(request.getRoom_status());
-        rooms.setAvailable_rooms(request.getAvailable_rooms());
+        //rooms.setAvailable_rooms(request.getAvailable_rooms());
         rooms.setState(request.getState());
         rooms.setCurrent_customer(request.getCurrent_customer());
 

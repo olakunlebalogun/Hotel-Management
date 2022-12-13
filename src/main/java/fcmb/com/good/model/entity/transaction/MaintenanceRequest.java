@@ -2,12 +2,16 @@ package fcmb.com.good.model.entity.transaction;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.assets.Assets;
+import fcmb.com.good.model.entity.products.Products;
+import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.entity.user.Employee;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -29,6 +33,13 @@ public class MaintenanceRequest extends BaseEntity {
     @JoinColumn(name = "employee_id", insertable = false, updatable = false)
     private Employee employee;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "assets_Id", insertable = false, updatable = false)
+    private Assets assets;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_Id", insertable = false, updatable = false)
+    private Customer customer;
 
     public MaintenanceRequest(){}
 
