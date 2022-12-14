@@ -28,6 +28,7 @@ public class Assets extends BaseEntity {
     @JoinColumn(name = "assetsCategoryId", insertable = false, updatable = false)
     private AssetsCategory assets_category;
 
+
     public Assets (){
 
     }

@@ -2,12 +2,14 @@ package fcmb.com.good.model.entity.transaction;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.products.Products;
 import fcmb.com.good.model.entity.user.Employee;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,6 +28,10 @@ public class ExpenseRequest extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id", insertable = false, updatable = false)
     private Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "expenses_Id", insertable = false, updatable = false)
+    private Expenses expenses;
 
     public ExpenseRequest(){}
 

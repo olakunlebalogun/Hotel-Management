@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Data
@@ -21,6 +22,15 @@ public class DamagedAssets extends BaseEntity {
     private String quantity;
     private String status;
     private String comment;
+
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "assetsId", insertable = false, updatable = false)
+    private Assets assets;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "assetsCategoryId", insertable = false, updatable = false)
+    private AssetsCategory assetsCategory;
 
 
     public DamagedAssets(){

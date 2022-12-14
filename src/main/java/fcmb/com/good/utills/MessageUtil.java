@@ -35,9 +35,10 @@ public class MessageUtil {
     public final static String INVALID_SHIFT = "Invalid shift, value is required";
     public final static String INVALID_PERIOD = "Invalid period, value is required";
     public final static String INVALID_DEPARTMENT = "Invalid department, value is required";
+    public final static String EMAIL_EXISTED = "Email is already Registered";
 
 
-                                //transactions
+    //transactions
     public final static String INVALIDATE_LAST_VISIT = "Invalid last visit date, value is required";
     public final static String INVALID_STAFF_UUID = "Staff with specified credential not found";
     public final static String  UNAUTHORIZE = "You are not authorize to add/update item/category";

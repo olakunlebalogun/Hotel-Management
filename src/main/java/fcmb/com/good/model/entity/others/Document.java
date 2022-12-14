@@ -1,13 +1,17 @@
 package fcmb.com.good.model.entity.others;
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.assets.AssetsCategory;
+import fcmb.com.good.model.entity.products.Products;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.commons.math3.stat.descriptive.summary.Product;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Data
@@ -23,13 +27,14 @@ public class Document extends BaseEntity {
     private String description;
     private Long record_id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
-    private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private Rooms rooms;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_Id", insertable = false, updatable = false)
+    private Products products;
 
     public Document(){}
 
