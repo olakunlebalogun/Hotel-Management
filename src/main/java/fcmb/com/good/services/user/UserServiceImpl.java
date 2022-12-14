@@ -73,7 +73,7 @@ public class UserServiceImpl  implements UserService {
 
     @Override
     public ApiResponse<UserResponse> addUsers(@RequestBody UserRequest request) {
-        if(jwtFilter.isAdmin()){
+//        if(jwtFilter.isAdmin()){
             Optional<User> user  = validateUserByEmailId(request.getEmail());
             if(!user.isEmpty()){
                 return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
@@ -82,9 +82,9 @@ public class UserServiceImpl  implements UserService {
             userRepository.save(getUserFromRequest(request));
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Added successfully");
-        }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
+//        }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
 
     }
 
