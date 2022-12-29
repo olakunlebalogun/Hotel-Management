@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -70,14 +68,21 @@ public class ProductServiceImpl implements ProductService {
             products.setDescription(request.getDescription());
             products.setQuantity(request.getQuantity());
             products.setPrice(request.getPrice());
+            products.setCategory(request.getCategory());
 
             ProductCategory productCategory = new ProductCategory();
-            productCategory.setUuid(products.getProductCategory().getUuid());
-            productCategory.setName(products.getProductCategory().getName());
+            UUID uuid = UUID.randomUUID();
+            productCategory.setUuid(uuid);
+            productCategory.setName(products.getCategory()); // This could have been request.getCategory()
 
+            Set<Products> productsSet = new HashSet<>();
+            productsSet.add(products);
+            productCategory.setProd(productsSet);
+//
             products.setProductCategory(productCategory);
 
-            products=productRepository.save(products);
+            productRepository.save(products);
+            productCategoryRepository.save(productCategory);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(products, ProductResponse.class));
     }
