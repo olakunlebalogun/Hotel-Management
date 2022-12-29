@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class DamagedAssetsResponse extends BaseDto {
 
-     Long asset_id;
-     Long asset_category_id;
-     String quantity;
-     String status;
-     String comment;
+     private Long asset_id;
+     private Long asset_category_id;
+     private String quantity;
+     private String status;
+     private String comment;
 
 }

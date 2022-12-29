@@ -13,34 +13,34 @@ public class MaintenanceRequestRequest  {
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String maintenance_category;
+       private String maintenance_category;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       Long asset_id;
+       private Long asset_id;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String comment;
+       private String comment;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String quantity;
+       private String quantity;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       Double cost;
+       private Double cost;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String status;
+       private String status;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String requested_by;
+       private String requested_by;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String maintained_by;
+       private String maintained_by;
 
 }

@@ -13,10 +13,10 @@ public class ExpenseRequest {
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      String expense_type;
+      private String expense_type;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      String description;
+      private String description;
 
 }

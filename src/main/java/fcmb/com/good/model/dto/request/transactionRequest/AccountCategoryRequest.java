@@ -13,10 +13,10 @@ public class AccountCategoryRequest  {
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    String code;
+    private String code;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    String currency;
+    private String currency;
 
 }

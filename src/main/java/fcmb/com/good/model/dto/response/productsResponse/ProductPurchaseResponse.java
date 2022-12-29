@@ -7,11 +7,11 @@ import lombok.Data;
 @Data
 public class ProductPurchaseResponse extends BaseDto {
 
-     Long product_id;
-     String description;
-     String company_name;
-     String quantity;
-     Double price;
+     private Long product_id;
+     private String description;
+     private String company_name;
+     private String quantity;
+     private Double price;
 
 
 }

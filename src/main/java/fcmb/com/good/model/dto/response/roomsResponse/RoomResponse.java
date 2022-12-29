@@ -7,12 +7,12 @@ import lombok.Data;
 @Data
 public class RoomResponse extends BaseDto {
 
-     String room_type;
-     Long room_no;
-     String room_description;
-     Double price;
-     String room_status;
-     String available_rooms;
-     String state;
-     String current_customer;
+     private String room_type;
+     private Long room_no;
+     private String room_description;
+     private Double price;
+     private String room_status;
+     private String available_rooms;
+     private String state;
+     private String current_customer;
 }

@@ -14,30 +14,30 @@ public class BookingRequest  {
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      Long customer_id;
+      private Long customer_id;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      Long room_id;
+      private Long room_id;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      Double price;
+      private Double price;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      String quantity;
+      private String quantity;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      Date check_in_date;
+      private Date check_in_date;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      Date check_out_date;
+      private Date check_out_date;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      String night;
+      private String night;
 
 }

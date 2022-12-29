@@ -1,31 +1,18 @@
 package fcmb.com.good.services.others;
 
-import fcmb.com.good.mapper.Mapper;
-import fcmb.com.good.model.dto.enums.AppStatus;
-import fcmb.com.good.model.dto.request.userRequest.UserRequest;
-import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.UserResponse;
 import fcmb.com.good.model.entity.others.Document;
-import fcmb.com.good.model.entity.user.User;
 import fcmb.com.good.repo.others.DocumentRepository;
 import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.Utils;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Optional;
-import java.util.UUID;
 
 
 @Service
@@ -39,82 +26,48 @@ public class UploadServiceImpl  implements UploadService {
     @Value("${FILE_UPLOAD_LOCATION}")
     private String uploadLocation;
 
+    private final String PATH = "C:\\Users\\USER\\Documents\\uploads";
+
 
     @Override
-    public ApiResponse<UserResponse> uploadFile(UUID uuid, UserRequest request, MultipartFile file) throws IOException {
+    public Document uploadFile(MultipartFile file) throws IOException {
 
-        DeferredResult<ResponseEntity> result = new DeferredResult<>();
-        Optional<User> user = userRepository.findByUuid(uuid);
-        if (user.isPresent()) {
-            String originalName = file.getOriginalFilename().replaceAll("[\\\\/><\\|\\s\"'{}()\\[\\]]+", "_");
-            String files = getStoreLocationPath() + File.separator + Utils.getNewFileName(getStoreLocationPath(), originalName);
-            File testFile = new File(files);
-            FileUtils.writeByteArrayToFile(testFile, file.getBytes());
-            User us = user.get();
-            Document document = new Document();
-//            document.setDateCreated(us.getDateCreated());
-//            document.setLastModified(us.getLastModified());
-            document.setPostedBy(us.getPostedBy());
-            document.setRecord_id(document.getRecord_id());
-            document.setDescription(document.getDescription());
-            document.setFile_name(testFile.getName());
-            document.setFile_size(document.getFile_size().replaceAll(" ", ""));
-            document.setFile_type(FilenameUtils.getExtension(testFile.getName()));
-            document = documentRepository.save(document);
-            return new ApiResponse<UserResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertObject(document,UserResponse.class));
-        }
-        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.NOT_FOUND.value());
+//        String filePath = PATH +file.getOriginalFilename();
+//
+//        Document document = documentRepository.save(Document.builder()
+//                .name(file.getOriginalFilename())
+//                .type(file.getContentType())
+//                .size(file.getSize())
+//                .description(file.getName())
+//                .filePath(filePath).build());
+//
+//        file.transferTo(new File(filePath));
+//
+//            if(document != null){
+//                return new File("File Upload Successfully :" + filePath);
+//            }
+//              return  null;
+
+
+        String filePath = PATH+file.getOriginalFilename();
+        Document document = new Document();
+        document.setName(file.getOriginalFilename());
+        document.setType(file.getContentType());
+        document.setSize(String.valueOf(file.getSize()));
+        document.setDescription(file.getName());
+        document.setFilePath(filePath);
+
+        file.transferTo(new File(filePath));
+        return documentRepository.save(document);
+
     }
 
-
-
-//    public DeferredResult<ResponseEntity> secondUploadFile(String accountid,
-//                                                     String category,
-//                                                     MultipartFile file) {
-//        DeferredResult<ResponseEntity> result = new DeferredResult<>();
-//        Optional<Appuser> acct = service.getAppuserRepo().findById(service.Decript(accountid));
-//        if (acct.isPresent()) {
-//            try {
-//                String originalName = file.getOriginalFilename().replaceAll("[\\\\/><\\|\\s\"'{}()\\[\\]]+", "_");
-//                String files = Utils.baseDir(service.getDocBase()).getPath() + File.separator + Utils.getNewFileName(Utils.baseDir(service.getDocBase()).getPath(), originalName);
-//
-//                File testFile = new File(files);
-//                FileUtils.writeByteArrayToFile(testFile, file.getBytes());
-//                Appuser ac = acct.get();
-//                Uploadlogs fl = new Uploadlogs();
-//                fl.setCreatedby(ac.getId());
-//                fl.setCreatedbyemail(ac.getEmail());
-//                fl.setCreatedbyname(ac.getFullname());
-//                fl.setCreatedbyphoto(ac.getPhoto());
-//                fl.setOriginalname(originalName);
-//                fl.setFilename(testFile.getName());
-//                fl.setFilesize(Utils.fileSize(testFile));
-//                fl.setFilesize(fl.getFilesize().replaceAll(" ", ""));
-//                fl.setCategory(category);
-//                fl.setFiletype(FilenameUtils.getExtension(testFile.getName()));
-//                fl = service.getUploadlogsRepo().save(fl);
-//                result.setResult(ResponseEntity.ok(new ApiResponse<>(MessageUtil.SUCCESS, fl)));
-//                return result;
-//
-//            } catch (IOException e) {
-//
-//                e.printStackTrace();
-//                result.setResult(new ResponseEntity(new ApiResponse<>(MessageUtil.FAILED, "500", "INTERNAL_SERVER_ERROR"), HttpStatus.OK));
-//                return result;
-//
-//            }
-//        } else {
-//            result.setResult(new ResponseEntity(new ApiResponse<>(MessageUtil.FAILED, "404", MessageUtil.RECORD_NOT_FOUND), HttpStatus.OK));
-//            return result;
-//        }
-//
-//    }
-
-
     @Override
-    public StreamingResponseBody previewPhoto(UUID uuid, HttpServletResponse response) throws FileNotFoundException {
-        return null;
+    public  byte[] downloadPhoto(String fileName) throws IOException {
+        Optional<Document> document = documentRepository.findByName(fileName);
+        String filePath = String.valueOf(document.get().getFilePath());
+        byte[] image = Files.readAllBytes(new File(filePath).toPath());
+        return image;
     }
 
 

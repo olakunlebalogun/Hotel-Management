@@ -93,7 +93,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Employee getEmployeeFromRequest(EmployeeRequest request){
         Employee emp = new Employee();
-        emp.setPostedBy(request.getPostedBy());
         emp.setName(request.getName());
         emp.setEmail(request.getEmail());
         emp.setAddress(request.getAddress());

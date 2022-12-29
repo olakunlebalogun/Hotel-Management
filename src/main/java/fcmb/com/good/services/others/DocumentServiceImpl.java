@@ -64,11 +64,10 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public ApiResponse<DocumentResponse> updateDocument(UUID documentId, DocumentRequest request) {
         Document document = validateDocument(documentId);
-        document.setFile_type(request.getFile_type());
-        document.setFile_name(request.getFile_name());
-        document.setFile_size(request.getFile_size());
+        document.setType(request.getType());
+        document.setName(request.getName());
+        document.setSize(request.getSize());
         document.setDescription(request.getDescription());
-        document.setRecord_id(request.getRecord_id());
 
         document = documentRepository.save(document);
         return new ApiResponse<DocumentResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

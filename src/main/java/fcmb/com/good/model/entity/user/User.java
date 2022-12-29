@@ -19,7 +19,6 @@ import java.util.List;
 public class User extends BaseUser {
 
 
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "roleId", referencedColumnName = "id")
     private List<Role> roles = new ArrayList<Role>();

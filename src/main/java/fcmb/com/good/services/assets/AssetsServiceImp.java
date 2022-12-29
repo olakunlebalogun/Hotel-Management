@@ -67,7 +67,7 @@ public class AssetsServiceImp implements AssetsService {
         Assets assets = validateAssets(assets_id);
         assets.setCategory_id(request.getCategory_id());
         assets.setAsset_name(request.getAsset_name());
-        assets.setValue_cost(request.getValue_cost());
+        assets.setPrice(request.getPrice());
         assets.setDescription(request.getDescription());
         assets.setRecord_id(request.getRecord_id());
         assets.setRecord_type(request.getRecord_type());

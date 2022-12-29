@@ -1,39 +1,35 @@
 package fcmb.com.good.controller.othersControllers;
 
-import fcmb.com.good.model.dto.request.userRequest.UserRequest;
-import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.UserResponse;
+import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.services.others.UploadService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/document")
 @RequiredArgsConstructor
 public class UploadController {
 
 	private final UploadService uploadService;
 
 	@PostMapping("/upload/data")
-	@ApiOperation(value = "Upload profile picture of the dealer", response = String.class,
+	@ApiOperation(value = "Upload profile picture of the user", response = String.class,
 			produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ApiResponse<UserResponse> uploadFile(@RequestPart(value = "file", required = true) UUID uuid, UserRequest request,
-												MultipartFile file) throws IOException {
-		return uploadService.uploadFile(uuid, request, file);
+	public Document uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
+		return uploadService.uploadFile(file);
 	}
 
-
-
-
+	@GetMapping("/download/data")
+	@ApiOperation(value = "Download picture of User", response = String.class,
+			produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+	public byte[] downLoadFile(@PathVariable(value = "image", required = true) String fileName) throws IOException {
+		return uploadService.downloadPhoto(fileName);
+	}
 
 
 
