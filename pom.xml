@@ -18,7 +18,7 @@
         <java.version>17</java.version>
         <mapper.version>3.1.0</mapper.version>
         <swagger2.version>2.9.2</swagger2.version>
-        <swagger-ui.version>3.0.0</swagger-ui.version>
+        <swagger-ui.version>2.9.2</swagger-ui.version>
         <commons-io.version>2.11.0</commons-io.version>
         <jjwt.version>0.9.1</jjwt.version>
         <mockito-core.version>2.13.0</mockito-core.version>

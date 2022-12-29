@@ -64,32 +64,47 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ApiResponse<ProductResponse> addProducts(ProductRequest request) {
+    public ApiResponse addProducts(ProductRequest request) {
 //        if(jwtFilter.isAdmin()){
 
-            Products products = new Products();
-            products.setName(request.getName());
-            products.setDescription(request.getDescription());
-            products.setQuantity(request.getQuantity());
-            products.setPrice(request.getPrice());
-            products.setCategory(request.getCategory());
+            Products product = new Products();
+            product.setName(request.getName());
+            product.setDescription(request.getDescription());
+            product.setQuantity(request.getQuantity());
+            product.setPrice(request.getPrice());
+            product.setCategory(request.getCategory());
+
+            List<Products> productsList = productRepository.findAll();
+            if (productsList.contains(product)){
+                log.info("This product already exist, Please help us avoid duplicate");
+                return new ApiResponse("This product already exist, Please help us avoid duplicate", HttpStatus.BAD_REQUEST.value());
+
+            }
+
+
 
             ProductCategory productCategory = new ProductCategory();
             UUID uuid = UUID.randomUUID();
             productCategory.setUuid(uuid);
-            productCategory.setName(products.getCategory()); // This could have been request.getCategory()
+            productCategory.setName(product.getCategory()); // This could have been request.getCategory()
 
             Set<Products> productsSet = new HashSet<>();
-            productsSet.add(products);
+            if (productsSet.contains(product)){
+                log.info("This Category already has this product");
+                return new ApiResponse("This Category already has this product", HttpStatus.BAD_REQUEST.value());
+
+            }
+
+            productsSet.add(product);
             productCategory.setProd(productsSet);
 //
-            products.setProductCategory(productCategory);
+            product.setProductCategory(productCategory);
 
-            productRepository.save(products);
+            productRepository.save(product);
             productCategoryRepository.save(productCategory);
             log.info("Both Product and Product Category saved successfully");
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(products, ProductResponse.class));
+                Mapper.convertObject(product, ProductResponse.class));
 //    }
 //        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
 //                "You are not Authorized");
