@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class MaintenanceResponse extends BaseDto {
 
-     String maintenance_category;
-     Long asset_id;
-     String comment;
-     String quantity;
-     Long cost;
-     String status;
-     String requested_by;
-     String maintained_by;
+     private String maintenance_category;
+     private Long asset_id;
+     private String comment;
+     private String quantity;
+     private Long cost;
+     private String status;
+     private String requested_by;
+     private String maintained_by;
 
 }

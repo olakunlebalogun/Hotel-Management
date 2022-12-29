@@ -17,9 +17,9 @@ public class Assets extends BaseEntity {
 
     private String category_id;
     private String asset_name;
-    private Double value_cost;
+    private Double price;
     private String description;
-    private Long record_id;
+    private String record_id;
     private String record_type;
     private String code;
     private String Location;

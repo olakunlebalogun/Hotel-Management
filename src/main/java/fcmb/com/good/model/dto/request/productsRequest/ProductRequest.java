@@ -1,6 +1,7 @@
 package fcmb.com.good.model.dto.request.productsRequest;
 
 import fcmb.com.good.model.dto.BaseDto;
+import fcmb.com.good.model.entity.products.ProductCategory;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -13,34 +14,35 @@ public class ProductRequest  {
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String name;
+     private String name;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String description;
+     private String description;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String quantity;
+     private String quantity;
+
+//     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
+     private Double price;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     Double price;
+     private String category;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String category;
+     private String code;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String posted_by;
+     private String location;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String code;
+     private String status;
 
-     @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
-     String location;
 
 }

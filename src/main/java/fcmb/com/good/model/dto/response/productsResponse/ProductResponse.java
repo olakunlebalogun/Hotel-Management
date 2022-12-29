@@ -2,17 +2,22 @@ package fcmb.com.good.model.dto.response.productsResponse;
 
 
 import fcmb.com.good.model.dto.BaseDto;
+import fcmb.com.good.model.entity.products.ProductCategory;
 import lombok.Data;
 
 @Data
 public class ProductResponse extends BaseDto {
 
-     String name;
-     String description;
-     String quantity;
-     Double price;
-     String category;
-     String posted_by;
-     String code;
-     String location;
+     private String name;
+     private String description;
+     private String quantity;
+     private Double price;
+     private String category;
+     private String posted_by;
+     private String code;
+     private String location;
+
+     private ProductCategory productCategory;
+
+
 }

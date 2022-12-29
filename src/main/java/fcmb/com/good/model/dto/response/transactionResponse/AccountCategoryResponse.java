@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class AccountCategoryResponse extends BaseDto {
 
-     String code;
-     String currency;
+     private String code;
+     private String currency;
 
 }

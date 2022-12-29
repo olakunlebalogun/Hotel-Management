@@ -68,7 +68,6 @@ public class UserServiceImpl  implements UserService {
         }
             return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
                     "You are not Authorized");
-
     }
 
     @Override
@@ -85,7 +84,6 @@ public class UserServiceImpl  implements UserService {
         }
         return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
                 "You are not Authorized");
-
     }
 
 
@@ -113,13 +111,13 @@ public class UserServiceImpl  implements UserService {
 
     private Optional<User> validateUserByEmailId(String email){
         Optional<User> user = userRepository.findByEmailId(email);
-        System.out.println(user);
+        if(user.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         return user;
     }
 
     private User getUserFromRequest(UserRequest request){
         User us = new User();
-        us.setPostedBy(request.getPostedBy());
         us.setName(request.getName());
         us.setEmail(request.getEmail());
         us.setAddress(request.getAddress());
@@ -147,7 +145,6 @@ public class UserServiceImpl  implements UserService {
     public ApiResponse<UserResponse> updateUser(UUID userId, @RequestBody UserRequest request) {
         if(jwtFilter.isAdmin()){
             User user = validateUser(userId);
-            user.setPostedBy(request.getPostedBy());
             user.setName(request.getName());
             user.setEmail(request.getEmail());
             user.setAddress(request.getAddress());

@@ -96,7 +96,6 @@ public class CustomerServiceImpl implements CustomerService  {
 
     private Customer getCustomerFromRequest(CustomerRequest request){
         Customer cus = new Customer();
-        cus.setPostedBy(request.getPostedBy());
         cus.setName(request.getName());
         cus.setEmail(request.getEmail());
         cus.setAddress(request.getAddress());

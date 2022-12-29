@@ -13,18 +13,18 @@ public class ServiceRequestRequest  {
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       Long service_id;
+       private Long service_id;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       Long customer_id;
+       private Long customer_id;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String service_type;
+       private String service_type;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String serviced_by;
+       private String serviced_by;
 
 }

@@ -33,8 +33,15 @@ public class ProductEndPoints {
     public static final String FIND_PRODUCT_BY_ID= PRODUCT+"/{id}";
     public static final String UPDATE_PRODUCT= PRODUCT+"/update/{id}";
     public static final String DELETE_PRODUCT= PRODUCT+"/delete/{id}";
+    public static final String FIND_PRODUCT_BY_CATEGORY= PRODUCT+"/productCategoryList";
 
 
+    public static final String PRODUCT_CATEGORY="/productCategory";
+    public static final String FIND_PRODUCT_CATEGORY=PRODUCT_CATEGORY+"/list";
+    public static final String ADD_PRODUCT_CATEGORY= PRODUCT_CATEGORY+"/add";
+    public static final String FIND_PRODUCT_CATEGORY_BY_ID= PRODUCT_CATEGORY+"/{id}";
+    public static final String UPDATE_PRODUCT_CATEGORY= PRODUCT_CATEGORY+"/update/{id}";
+    public static final String DELETE_PRODUCT_CATEGORY= PRODUCT_CATEGORY+"/delete/{id}";
 
 
 }

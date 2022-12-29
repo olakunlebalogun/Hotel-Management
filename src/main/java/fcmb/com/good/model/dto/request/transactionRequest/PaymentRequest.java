@@ -14,22 +14,22 @@ public class PaymentRequest  {
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       Long customer_id;
+       private Long customer_id;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String payment_type;
+       private String payment_type;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       Double amount;
+       private Double amount;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String payment_status;
+       private String payment_status;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String payment_details;
+       private String payment_details;
 
 }

@@ -21,11 +21,11 @@ import java.util.List;
 @Table(name = "document")
 public class Document extends BaseEntity {
 
-    private String file_type;
-    private String file_name;
-    private String file_size;
+    private String type;
+    private String name;
+    private String size;
     private String description;
-    private Long record_id;
+    private String filePath;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -37,6 +37,7 @@ public class Document extends BaseEntity {
     private Products products;
 
     public Document(){}
+
 
 
 }

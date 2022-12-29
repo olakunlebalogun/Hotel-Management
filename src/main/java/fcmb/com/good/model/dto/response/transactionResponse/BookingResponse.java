@@ -9,12 +9,12 @@ import java.util.Date;
 @Data
 public class BookingResponse extends BaseDto {
 
-     Long customer_id;
-     Long room_id;
-     Double price;
-     String quantity;
-     Date check_in_date;
-     Date check_out_date;
-     String night;
+     private Long customer_id;
+     private Long room_id;
+     private Double price;
+     private String quantity;
+     private Date check_in_date;
+     private Date check_out_date;
+     private String night;
 
 }

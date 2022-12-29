@@ -13,38 +13,38 @@ public class ProductOrderRequest  {
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    Long customer_id;
+    private Long customer_id;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    Long product_id;
+    private Long product_id;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    Double amount;
+    private Double amount;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    Double tax;
+    private Double tax;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    String order_no;
+    private String order_no;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    String account_no;
+    private String account_no;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    Double profit;
+    private Double profit;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    String sales_person;
+    private String sales_person;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    String order_state;
+    private String order_state;
 
 }

@@ -6,13 +6,13 @@ import lombok.Data;
 
 @Data
 public class ProductOrderResponse extends BaseDto {
-     Long customer_id;
-     Long product_id;
-     Double amount;
-     Double tax;
-     Long order_no;
-     Long account_no;
-     Double profit;
-     String sales_person;
-     String order_state;
+     private Long customer_id;
+     private Long product_id;
+     private Double amount;
+     private Double tax;
+     private Long order_no;
+     private Long account_no;
+     private Double profit;
+     private String sales_person;
+     private String order_state;
 }

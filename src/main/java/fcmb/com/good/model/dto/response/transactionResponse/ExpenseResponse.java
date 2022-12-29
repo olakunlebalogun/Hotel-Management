@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ExpenseResponse extends BaseDto {
 
-     String expense_type;
-     String description;
+     private String expense_type;
+     private String description;
 
 }

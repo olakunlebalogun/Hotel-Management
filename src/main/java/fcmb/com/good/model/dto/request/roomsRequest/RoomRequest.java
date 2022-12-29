@@ -13,35 +13,35 @@ public class RoomRequest  {
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      String room_type;
+      private String room_type;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      String room_no;
+      private String room_no;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      String room_description;
+      private String room_description;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      Double price;
+      private Double price;
 
 //      @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-      String room_status;
+      private String room_status;
 
 //      @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-      String available_rooms;
+      private String available_rooms;
 
 //      @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-      String state;
+      private String state;
 
 //      @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-      String current_customer;
+      private String current_customer;
 
 
 }

@@ -29,15 +29,15 @@ public class AssetsRequest  {
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    private Double value_cost;
+    private Double price;
 
-    @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
+    //@NotNull(message = INVALID_NAME)
+    //@NotEmpty(message = INVALID_NAME)
     private String description;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    private Long record_id;
+    private String record_id;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)

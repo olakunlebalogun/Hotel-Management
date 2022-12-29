@@ -5,10 +5,7 @@ import fcmb.com.good.model.entity.assets.AssetsCategory;
 import fcmb.com.good.model.entity.assets.DamagedAssets;
 import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.others.Hotel;
-import fcmb.com.good.model.entity.products.ProductOrder;
-import fcmb.com.good.model.entity.products.ProductOrderItems;
-import fcmb.com.good.model.entity.products.ProductPurchase;
-import fcmb.com.good.model.entity.products.Products;
+import fcmb.com.good.model.entity.products.*;
 import fcmb.com.good.model.entity.rooms.RoomType;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.services.ServiceRequest;
@@ -133,6 +130,11 @@ public class BaseListener {
         else if(data instanceof UserType){
             UserType type = (UserType) data;
             type.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof ProductCategory){
+            ProductCategory productCategory = (ProductCategory) data;
+            productCategory.setUuid(UUID.randomUUID());
         }
 
     }
