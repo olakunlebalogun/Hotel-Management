@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+//@Data
 @AllArgsConstructor
 @EntityListeners(BaseListener.class)
 @Entity
@@ -28,4 +28,20 @@ public class ProductCategory extends BaseEntity {
 
     public ProductCategory(){}
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Products> getProd() {
+        return prod;
+    }
+
+    public void setProd(Set<Products> prod) {
+        this.prod = prod;
+    }
 }

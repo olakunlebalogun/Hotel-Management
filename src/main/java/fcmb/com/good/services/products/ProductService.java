@@ -14,7 +14,7 @@ public interface ProductService {
 
     ApiResponse<ProductResponse> getListOfProductByCategory(UUID productCategoryId);
 
-    ApiResponse<ProductResponse> addProducts(@RequestBody ProductRequest request);
+    ApiResponse<ProductResponse> addProducts( ProductRequest request);
 
     ApiResponse<ProductResponse> getProductById(UUID productId);
 

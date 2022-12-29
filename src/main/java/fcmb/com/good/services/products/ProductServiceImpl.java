@@ -13,6 +13,7 @@ import fcmb.com.good.repo.products.ProductCategoryRepository;
 import fcmb.com.good.repo.products.ProductRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,14 +25,17 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
     private  final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
     private final JwtFilter jwtFilter;
 
+
+
     @Override
     public ApiResponse<List<ProductResponse>> getListOfProduct(int page, int size) {
-        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
+//        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
 
             List<Products> productList = productRepository.findAll(PageRequest.of(page,size)).toList();
             if(productList.isEmpty())
@@ -40,9 +44,9 @@ public class ProductServiceImpl implements ProductService {
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     Mapper.convertList(productList, ProductResponse.class));
 
-        }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
+//        }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
     }
 
 
@@ -60,8 +64,8 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ApiResponse<ProductResponse> addProducts(@RequestBody ProductRequest request) {
-        if(jwtFilter.isAdmin()){
+    public ApiResponse<ProductResponse> addProducts(ProductRequest request) {
+//        if(jwtFilter.isAdmin()){
 
             Products products = new Products();
             products.setName(request.getName());
@@ -83,11 +87,12 @@ public class ProductServiceImpl implements ProductService {
 
             productRepository.save(products);
             productCategoryRepository.save(productCategory);
+            log.info("Both Product and Product Category saved successfully");
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(products, ProductResponse.class));
-    }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
+//    }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
     }
 
 

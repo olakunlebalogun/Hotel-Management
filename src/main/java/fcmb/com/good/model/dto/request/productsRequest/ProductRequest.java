@@ -32,16 +32,16 @@ public class ProductRequest  {
      @NotEmpty(message = INVALID_NAME)
      private String category;
 
-     @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
+//     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
      private String code;
 
-     @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
+//     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
      private String location;
 
-     @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
+//     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
      private String status;
 
 

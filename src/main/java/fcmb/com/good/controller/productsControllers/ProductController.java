@@ -91,9 +91,14 @@ public class ProductController {
         return productPurchaseService.addProductPurchase(request);
     }
 
+//    @PostMapping(ADD_PRODUCT)
+//    @ApiOperation(value = "Endpoint for adding new product to database", response = String.class)
+//    public ApiResponse<ProductResponse> addProduct(UUID uuid,@Valid @RequestBody ProductRequest request, boolean isAdd) {
+//        return productService.addProducts(request);
+//    }
     @PostMapping(ADD_PRODUCT)
     @ApiOperation(value = "Endpoint for adding new product to database", response = String.class)
-    public ApiResponse<ProductResponse> addProduct(UUID uuid,@Valid @RequestBody ProductRequest request, boolean isAdd) {
+    public ApiResponse<ProductResponse> addProduct(@Valid @RequestBody ProductRequest request) {
         return productService.addProducts(request);
     }
 
