@@ -67,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
     public ApiResponse addProducts(ProductRequest request) {
 //        if(jwtFilter.isAdmin()){
 
+
             Products product = new Products();
             product.setName(request.getName());
             product.setDescription(request.getDescription());
@@ -134,6 +135,7 @@ public class ProductServiceImpl implements ProductService {
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         return products.get();
     }
+
 
 
     @Override
