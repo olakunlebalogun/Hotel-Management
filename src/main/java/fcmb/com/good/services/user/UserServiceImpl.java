@@ -12,7 +12,7 @@ import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.userResponse.UserResponse;
 import fcmb.com.good.model.dto.response.userResponse.changeUserPasswordResponse;
 import fcmb.com.good.model.dto.response.userResponse.forgotUserPasswordResponse;
-import fcmb.com.good.model.entity.user.User;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.EmailUtils;
 import fcmb.com.good.utills.JwtUtil;
@@ -59,7 +59,7 @@ public class UserServiceImpl  implements UserService {
     @Override
     public ApiResponse<UserResponse> getListOfUsers(int page, int size) {
         if(jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
-            List<User> userList = userRepository.findAll(PageRequest.of(page, size)).toList();
+            List<AppUser> userList = userRepository.findAll(PageRequest.of(page, size)).toList();
             if (userList.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
@@ -73,7 +73,7 @@ public class UserServiceImpl  implements UserService {
     @Override
     public ApiResponse<UserResponse> addUsers(@RequestBody UserRequest request) {
         if(jwtFilter.isAdmin()){
-            Optional<User> user  = validateUserByEmailId(request.getEmail());
+            Optional<AppUser> user  = validateUserByEmailId(request.getEmail());
             if(!user.isEmpty()){
                 return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
                         "Email Already Exist");
@@ -90,11 +90,11 @@ public class UserServiceImpl  implements UserService {
     @Override
     public ApiResponse<UserResponse> getUsersById(@RequestParam("id") UUID userId) {
         if(jwtFilter.isAdmin()){
-            Optional<User> user = userRepository.findByUuid(userId);
+            Optional<AppUser> user = userRepository.findByUuid(userId);
             if(user.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-            User us = user.get();
+            AppUser us = user.get();
             return new ApiResponse<UserResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     Mapper.convertObject(us,UserResponse.class));
         }
@@ -102,22 +102,22 @@ public class UserServiceImpl  implements UserService {
                 "You are not Authorized");
     }
 
-    private User validateUser(UUID uuid){
-        Optional<User> user = userRepository.findByUuid(uuid);
+    private AppUser validateUser(UUID uuid){
+        Optional<AppUser> user = userRepository.findByUuid(uuid);
         if(user.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         return user.get();
     }
 
-    private Optional<User> validateUserByEmailId(String email){
-        Optional<User> user = userRepository.findByEmailId(email);
+    private Optional<AppUser> validateUserByEmailId(String email){
+        Optional<AppUser> user = userRepository.findByEmailId(email);
         if(user.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         return user;
     }
 
-    private User getUserFromRequest(UserRequest request){
-        User us = new User();
+    private AppUser getUserFromRequest(UserRequest request){
+        AppUser us = new AppUser();
         us.setName(request.getName());
         us.setEmail(request.getEmail());
         us.setAddress(request.getAddress());
@@ -133,9 +133,9 @@ public class UserServiceImpl  implements UserService {
         return us;
     }
 
-    private User postedByUuid(String postedBy){
-        User user = validateUser(UUID.fromString(postedBy));
-        User users = new User();
+    private AppUser postedByUuid(String postedBy){
+        AppUser user = validateUser(UUID.fromString(postedBy));
+        AppUser users = new AppUser();
         users.setPostedBy(String.valueOf(users));
         return user;
     }
@@ -144,7 +144,7 @@ public class UserServiceImpl  implements UserService {
    @Override
     public ApiResponse<UserResponse> updateUser(UUID userId, @RequestBody UserRequest request) {
         if(jwtFilter.isAdmin()){
-            User user = validateUser(userId);
+            AppUser user = validateUser(userId);
             user.setName(request.getName());
             user.setEmail(request.getEmail());
             user.setAddress(request.getAddress());
@@ -168,7 +168,7 @@ public class UserServiceImpl  implements UserService {
     @Override
     public ApiResponse<String> deleteUser(UUID userId) {
         if(jwtFilter.isAdmin()){
-            User user = validateUser(userId);
+            AppUser user = validateUser(userId);
             userRepository.delete(user);
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Deleted successfully");
@@ -180,7 +180,7 @@ public class UserServiceImpl  implements UserService {
     @Override
     public ApiResponse<changeUserPasswordResponse> changeUserPassword(String email,  changeUserPasswordRequest request) {
        if(jwtFilter.isAdmin()){
-           User users = userRepository.findByEmail(email);
+           AppUser users = userRepository.findByEmail(email);
            if(users.getPassword().equals(request.getOldPassword())){
                users.setPassword(request.getNewPassword());
                userRepository.save(users);
@@ -197,7 +197,7 @@ public class UserServiceImpl  implements UserService {
 
     @Override
     public ApiResponse<forgotUserPasswordResponse> forgotUserPassword(String email) throws MessagingException {
-        User users = userRepository.findByEmail(email);
+        AppUser users = userRepository.findByEmail(email);
             emailUtils.forgotMail(users.getEmail(), "Credentials by Hotel Management System", users.getPassword() );
 
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

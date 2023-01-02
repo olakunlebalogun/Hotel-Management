@@ -16,11 +16,11 @@ public interface ProductService {
 
     ApiResponse<ProductResponse> getListOfProductByCategory(UUID productCategoryId);
 
-    ApiResponse<ProductResponse> addProducts(ProductRequest request);
+    ApiResponse<String> addProducts(ProductRequest request);
 
     ApiResponse<ProductResponse> getProductById(UUID productId);
 
-    ApiResponse<ProductResponse> updateProduct( UUID productId, ProductRequest request);
+    ApiResponse<String> updateProduct( UUID productId, ProductRequest request);
 
     ApiResponse<String> deleteProduct(UUID productId);
 

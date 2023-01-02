@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 
 @Data
@@ -39,7 +38,7 @@ public class ProductOrder extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_Id", insertable = false, updatable = false)
-    private Products products;
+    private Product product;
 
     public ProductOrder(){}
 

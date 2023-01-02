@@ -4,7 +4,6 @@ package fcmb.com.good.controller.productsControllers;
 import fcmb.com.good.model.dto.request.productsRequest.*;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.*;
-import fcmb.com.good.model.entity.products.Products;
 import fcmb.com.good.services.products.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -98,7 +97,7 @@ public class ProductController {
 //    }
     @PostMapping(ADD_PRODUCT)
     @ApiOperation(value = "Endpoint for adding new product to database", response = String.class)
-    public ApiResponse<ProductResponse> addProduct(@Valid @RequestBody ProductRequest request) {
+    public ApiResponse<String> addProduct(@Valid @RequestBody ProductRequest request) {
         return productService.addProducts(request);
     }
 
@@ -185,7 +184,7 @@ public class ProductController {
 
     @PutMapping(UPDATE_PRODUCT)
     @ApiOperation(value = "Endpoint for updating product by id from database", response = String.class)
-    public ApiResponse<ProductResponse> updateProduct(@PathVariable(value = "id") UUID product_id,
+    public ApiResponse<String> updateProduct(@PathVariable(value = "id") UUID product_id,
                                                      @RequestBody ProductRequest request) {
         return productService.updateProduct(product_id, request);
     }

@@ -1,6 +1,5 @@
 package fcmb.com.good.model.entity.user;
 
-import fcmb.com.good.model.entity.BaseEntity;
 import fcmb.com.good.model.entity.BaseUser;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,7 @@ import java.util.List;
 @EntityListeners(BaseListener.class)
 @Table (name = "users")
 @AllArgsConstructor
-public class User extends BaseUser {
+public class AppUser extends BaseUser {
 
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -27,6 +26,6 @@ public class User extends BaseUser {
     @JoinColumn(name = "userTypeId", referencedColumnName = "id")
     private List<UserType> usertype = new ArrayList<UserType>();
 
-    public User(){}
+    public AppUser(){}
 
    }

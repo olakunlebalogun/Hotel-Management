@@ -4,7 +4,6 @@ package fcmb.com.good.model.entity.products;
 import fcmb.com.good.model.entity.BaseEntity;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -24,7 +23,7 @@ public class ProductCategory extends BaseEntity {
 //    private Products products;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "productCategory", cascade = CascadeType.MERGE)
-    private Set<Products> prod = new HashSet<>();
+    private Set<Product> prod = new HashSet<>();
 
     public ProductCategory(){}
 
@@ -37,11 +36,11 @@ public class ProductCategory extends BaseEntity {
         this.name = name;
     }
 
-    public Set<Products> getProd() {
+    public Set<Product> getProd() {
         return prod;
     }
 
-    public void setProd(Set<Products> prod) {
+    public void setProd(Set<Product> prod) {
         this.prod = prod;
     }
 }

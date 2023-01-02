@@ -2,7 +2,6 @@ package fcmb.com.good.model.entity.transaction;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.products.Products;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
@@ -11,7 +10,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
