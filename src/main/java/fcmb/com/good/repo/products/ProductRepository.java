@@ -20,9 +20,13 @@ public interface ProductRepository extends JpaRepository<Products, Long> {
     @Query("delete from Products st where st.uuid=:recordId")
     Optional<Products> deleteByUuid(@Param("recordId")UUID uuid);
 
-//    @Query("select st from Products st where st.ProductCategory.productCategory=:recordId")
+//    @Query("select st from Products st where st.ProductCategory=:recordId")
 //    List<Products> findProductsByCategory(@Param("recordId") Optional<ProductCategory> productCategory );
 
     List<Products> findProductsByCategory (Optional<ProductCategory> productCategory);
+
+    //@Query("select p from Products p where p.name=:name")
+    List<Products> findByName(String name);
+
 
 }

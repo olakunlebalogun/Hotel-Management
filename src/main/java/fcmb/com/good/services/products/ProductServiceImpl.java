@@ -49,6 +49,19 @@ public class ProductServiceImpl implements ProductService {
 //                "You are not Authorized");
     }
 
+    @Override
+    public ApiResponse<List<ProductResponse>> getListOfProductByName(int page, int size, String name) {
+
+        List<Products> productList = productRepository.findByName(String.valueOf(PageRequest.of(page,size)));
+        if(productList.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        log.info("List of products by name");
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(productList, ProductResponse.class));
+    }
+
 
     @Override
     public ApiResponse<ProductResponse> getListOfProductByCategory(UUID productCategoryId) {
@@ -73,31 +86,35 @@ public class ProductServiceImpl implements ProductService {
             product.setQuantity(request.getQuantity());
             product.setPrice(request.getPrice());
             product.setCategory(request.getCategory());
+            product.setCode(request.getCode());
+            product.setLocation(request.getLocation());
+            product.setStatus(request.getStatus());
 
             List<Products> productsList = productRepository.findAll();
             if (productsList.contains(product)){
                 log.info("This product already exist, Please help us avoid duplicate");
                 return new ApiResponse("This product already exist, Please help us avoid duplicate", HttpStatus.BAD_REQUEST.value());
-
             }
-
-
 
             ProductCategory productCategory = new ProductCategory();
             UUID uuid = UUID.randomUUID();
             productCategory.setUuid(uuid);
             productCategory.setName(product.getCategory()); // This could have been request.getCategory()
 
+            List<ProductCategory> productCat = productCategoryRepository.findAll();
+            if(productCat.contains(productCat)){
+            return new ApiResponse("This productCategory already exist", HttpStatus.BAD_REQUEST.value());
+             }
+
             Set<Products> productsSet = new HashSet<>();
             if (productsSet.contains(product)){
                 log.info("This Category already has this product");
                 return new ApiResponse("This Category already has this product", HttpStatus.BAD_REQUEST.value());
-
             }
 
             productsSet.add(product);
             productCategory.setProd(productsSet);
-//
+
             product.setProductCategory(productCategory);
 
             productRepository.save(product);
@@ -108,6 +125,7 @@ public class ProductServiceImpl implements ProductService {
 //    }
 //        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
 //                "You are not Authorized");
+
     }
 
 
@@ -137,7 +155,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ApiResponse<ProductResponse> updateProduct(UUID productId, @RequestBody ProductRequest request) {
+    public ApiResponse<ProductResponse> updateProduct(UUID productId,ProductRequest request) {
         if(jwtFilter.isAdmin()){
 
             Products products = validateProducts(productId);

@@ -34,7 +34,7 @@ public class ProductEndPoints {
     public static final String UPDATE_PRODUCT= PRODUCT+"/update/{id}";
     public static final String DELETE_PRODUCT= PRODUCT+"/delete/{id}";
     public static final String FIND_PRODUCT_BY_CATEGORY= PRODUCT+"/productCategoryList";
-
+    public static final String FIND_PRODUCT_BY_NAME= PRODUCT+"/productListByName";
 
     public static final String PRODUCT_CATEGORY="/productCategory";
     public static final String FIND_PRODUCT_CATEGORY=PRODUCT_CATEGORY+"/list";
