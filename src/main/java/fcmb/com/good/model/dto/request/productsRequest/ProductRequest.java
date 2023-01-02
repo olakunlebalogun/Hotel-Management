@@ -50,6 +50,7 @@ public class ProductRequest  {
           @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
      private UUID createdBy;
+          private Double purchasedPrice;
 
 
 }

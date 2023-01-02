@@ -9,6 +9,7 @@ import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductResponse;
 import fcmb.com.good.model.entity.products.ProductCategory;
 import fcmb.com.good.model.entity.products.Product;
+import fcmb.com.good.model.entity.products.ProductPurchase;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.products.ProductCategoryRepository;
 import fcmb.com.good.repo.products.ProductRepository;
@@ -32,7 +33,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductCategoryRepository productCategoryRepository;
     private final JwtFilter jwtFilter;
 private final UserRepository userRepository;
-
 
     @Override
     public ApiResponse<List<ProductResponse>> getListOfProduct(int page, int size) {
@@ -61,7 +61,6 @@ private final UserRepository userRepository;
                 Mapper.convertList(productList, ProductResponse.class));
     }
 
-
     @Override
     public ApiResponse<ProductResponse> getListOfProductByCategory(UUID productCategoryId) {
         Optional<ProductCategory> productCategory = productCategoryRepository.findByUuid(productCategoryId);
@@ -86,7 +85,7 @@ private void validateDuplicationProduct(String name){
             Product product = validateProducts(productId);
             product.setName(request.getName());
             product.setDescription(request.getDescription());
-            product.setQuantity(request.getQuantity());
+            product.setQuantity(product.getQuantity()+request.getQuantity());
             product.setPrice(request.getPrice());
             //products.setCategory(request.getCategory());
             //products.setPosted_by(request.getPosted_by());
