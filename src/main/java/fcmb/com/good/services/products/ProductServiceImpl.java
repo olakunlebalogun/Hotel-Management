@@ -78,7 +78,6 @@ public class ProductServiceImpl implements ProductService {
             if (productsList.contains(product)){
                 log.info("This product already exist, Please help us avoid duplicate");
                 return new ApiResponse("This product already exist, Please help us avoid duplicate", HttpStatus.BAD_REQUEST.value());
-
             }
 
 
