@@ -58,9 +58,9 @@ public class BaseListener {
             ProductPurchase productPurchase = (ProductPurchase) data;
             productPurchase.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof Products){
-            Products products = (Products) data;
-            products.setUuid(UUID.randomUUID());
+        else if(data instanceof Product){
+            Product product = (Product) data;
+            product.setUuid(UUID.randomUUID());
         }
         else if(data instanceof RoomType){
             RoomType roomType = (RoomType) data;
@@ -122,8 +122,8 @@ public class BaseListener {
             Role role = (Role) data;
             role.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof User){
-            User user = (User) data;
+        else if(data instanceof AppUser){
+            AppUser user = (AppUser) data;
             user.setUuid(UUID.randomUUID());
         }
 

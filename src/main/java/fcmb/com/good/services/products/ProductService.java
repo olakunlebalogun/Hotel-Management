@@ -10,15 +10,17 @@ import java.util.UUID;
 
 public interface ProductService {
 
-   ApiResponse<List<ProductResponse>> getListOfProduct(int page, int size);
+    ApiResponse<List<ProductResponse>> getListOfProduct(int page, int size);
+
+    ApiResponse<List<ProductResponse>> getListOfProductByName(int page, int size, String name);
 
     ApiResponse<ProductResponse> getListOfProductByCategory(UUID productCategoryId);
 
-    ApiResponse<ProductResponse> addProducts( ProductRequest request);
+    ApiResponse<String> addProducts(ProductRequest request);
 
     ApiResponse<ProductResponse> getProductById(UUID productId);
 
-    ApiResponse<ProductResponse> updateProduct( UUID productId, ProductRequest request);
+    ApiResponse<String> updateProduct( UUID productId, ProductRequest request);
 
     ApiResponse<String> deleteProduct(UUID productId);
 

@@ -4,7 +4,6 @@ package fcmb.com.good.controller.productsControllers;
 import fcmb.com.good.model.dto.request.productsRequest.*;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.*;
-import fcmb.com.good.model.entity.products.Products;
 import fcmb.com.good.services.products.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class ProductController {
 
 
 
-    //FIND_LISTS_OF_PRODUCTS
+                                            //FIND_LISTS_OF_PRODUCTS
     @GetMapping(FIND_PRODUCT_ORDER_ITEMS)
     @ApiOperation(value = "Endpoint for retrieving lists of productOrderItems", response = ProductOrderItemsResponse.class, responseContainer = "List")
     public ApiResponse<List<ProductOrderItemsResponse>> getListOfProductOrderItems(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
@@ -98,7 +97,7 @@ public class ProductController {
 //    }
     @PostMapping(ADD_PRODUCT)
     @ApiOperation(value = "Endpoint for adding new product to database", response = String.class)
-    public ApiResponse<ProductResponse> addProduct(@Valid @RequestBody ProductRequest request) {
+    public ApiResponse<String> addProduct(@Valid @RequestBody ProductRequest request) {
         return productService.addProducts(request);
     }
 
@@ -150,8 +149,18 @@ public class ProductController {
         return productService.getListOfProductByCategory(product_id);
     }
 
+                                            //FIND_PRODUCTS_BY_NAME
 
-                                                     //UPDATE_PRODUCTS
+    @GetMapping(FIND_PRODUCT_BY_NAME)
+    @ApiOperation(value = "Endpoint for retrieving lists of product by Name", response = ProductResponse.class, responseContainer = "List")
+    public ApiResponse<List<ProductResponse>> getListOfProductByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                     @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                     @RequestParam String name ) {
+        return productService.getListOfProductByName(page,size, name);
+    }
+
+
+                                                //UPDATE_PRODUCTS
     @PutMapping(UPDATE_PRODUCT_ORDER_ITEMS)
     @ApiOperation(value = "Endpoint for updating productOrderItems by id from database", response = String.class)
     public ApiResponse<ProductOrderItemsResponse> updateProductOrderItems(@PathVariable(value = "id") UUID productOrderItem_id,
@@ -175,7 +184,7 @@ public class ProductController {
 
     @PutMapping(UPDATE_PRODUCT)
     @ApiOperation(value = "Endpoint for updating product by id from database", response = String.class)
-    public ApiResponse<ProductResponse> updateProduct(@PathVariable(value = "id") UUID product_id,
+    public ApiResponse<String> updateProduct(@PathVariable(value = "id") UUID product_id,
                                                      @RequestBody ProductRequest request) {
         return productService.updateProduct(product_id, request);
     }
