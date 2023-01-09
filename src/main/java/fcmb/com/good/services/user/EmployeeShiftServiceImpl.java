@@ -44,11 +44,11 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
 
 
     @Override
-    public ApiResponse<EmployeeShiftResponse> addEmployeeShift(@RequestBody EmployeeShiftRequest request) {
+    public ApiResponse<String> addEmployeeShift(@RequestBody EmployeeShiftRequest request) {
         EmployeeShift employeeShift = Mapper.convertObject(request,EmployeeShift.class);
         employeeShift = employeeShiftRepository.save(employeeShift);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(employeeShift, EmployeeShiftResponse.class));
+                "Record added Successfully");
     }
 
 
@@ -73,20 +73,20 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
     }
 
     @Override
-    public ApiResponse<EmployeeShiftResponse> updateEmployeeShift(UUID employeeShiftId, @RequestBody EmployeeShiftRequest request) {
+    public ApiResponse<String> updateEmployeeShift(UUID employeeShiftId, @RequestBody EmployeeShiftRequest request) {
         EmployeeShift employeeShifty = validateEmployeeShift(employeeShiftId);
         employeeShifty.setDesignation(request.getDesignation());
         employeeShifty.setShift(request.getShift());
         employeeShifty.setPeriod(request.getPeriod());
 
         employeeShifty = employeeShiftRepository.save(employeeShifty);
-        return new ApiResponse<EmployeeShiftResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(employeeShifty,EmployeeShiftResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Update Successfully");
     }
 
 
     @Override
-    public  ApiResponse<EmployeeShiftResponse> deleteEmployeeShift(UUID employeeShiftId) {
+    public  ApiResponse<String> deleteEmployeeShift(UUID employeeShiftId) {
         EmployeeShift employeeShift = validateEmployeeShift(employeeShiftId);
         employeeShiftRepository.delete(employeeShift);
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

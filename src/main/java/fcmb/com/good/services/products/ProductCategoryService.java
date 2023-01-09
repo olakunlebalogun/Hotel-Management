@@ -12,11 +12,11 @@ public interface ProductCategoryService {
 
     ApiResponse<List<ProductCategoryResponse>> getListOfProductCategory(int page, int size);
 
-    ApiResponse<ProductCategoryResponse> addProductCategory(ProductCategoryRequest request);
+    ApiResponse<String> addProductCategory(ProductCategoryRequest request);
 
     ApiResponse<ProductCategoryResponse> getProductCategoryById(UUID productCategoryId);
 
-    ApiResponse<ProductCategoryResponse> updateProductCategory( UUID productCategoryId, ProductCategoryRequest request);
+    ApiResponse<String> updateProductCategory( UUID productCategoryId, ProductCategoryRequest request);
 
     ApiResponse<String> deleteProductCategory(UUID productCategoryId);
 

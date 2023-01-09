@@ -26,10 +26,12 @@ public class Product extends BaseEntity {
     private String code;
     private String location;
     private String status;
+//    private String createdBy;
+
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_Id", insertable = false, updatable = false)
+    @JoinColumn(name = "users", insertable = false, updatable = false)
     private AppUser createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -26,8 +26,6 @@ public class Customer extends BaseUser {
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Booking> roomsList;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    private List<Product> productList;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Services> servicesList;

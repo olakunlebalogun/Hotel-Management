@@ -13,11 +13,11 @@ public interface ServiceService {
 
     ApiResponse<List<ServiceResponse>> getListOfService(int page, int size);
 
-    ApiResponse<ServiceResponse> addService(ServicesRequest request);
+    ApiResponse<String> addService(ServicesRequest request);
 
     ApiResponse<ServiceResponse>getServiceById(UUID serviceId);
 
-    ApiResponse<ServiceResponse> updateService(UUID serviceId, ServicesRequest request);
+    ApiResponse<String> updateService(UUID serviceId, ServicesRequest request);
 
     ApiResponse<String> deleteService(UUID serviceId);
 

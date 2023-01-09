@@ -40,11 +40,11 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
     }
 
     @Override
-    public ApiResponse<AssetsCategoryResponse> addAssetsCategory(@RequestBody AssetsCategoryRequest request) {
+    public ApiResponse<String> addAssetsCategory(@RequestBody AssetsCategoryRequest request) {
         AssetsCategory assetsCategory = Mapper.convertObject(request,AssetsCategory.class);
         assetsCategory=assetsCategoryRepository.save(assetsCategory);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(assetsCategory,AssetsCategoryResponse.class));
+                "Record created successfully");
     }
 
     @Override
@@ -66,7 +66,7 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
     }
 
     @Override
-    public ApiResponse<AssetsCategoryResponse> updateAssetsCategory(UUID assetsCategoryId,
+    public ApiResponse<String> updateAssetsCategory(UUID assetsCategoryId,
                                                                     @RequestBody AssetsCategoryRequest request) {
         AssetsCategory assetsCategory1 = validateAssetsCategory(assetsCategoryId);
         assetsCategory1.setName(request.getName());
@@ -75,8 +75,8 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
         assetsCategory1.setAccount_no(request.getAccount_no());
 
         assetsCategory1 = assetsCategoryRepository.save(assetsCategory1);
-        return new ApiResponse<AssetsCategoryResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(assetsCategory1,AssetsCategoryResponse.class));
+        return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record updated successfully");
     }
 
     @Override

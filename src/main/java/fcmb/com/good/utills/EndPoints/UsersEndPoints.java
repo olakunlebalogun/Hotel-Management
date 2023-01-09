@@ -13,6 +13,8 @@ public class UsersEndPoints {
     public static final String UPDATE_CUSTOMER= CUSTOMER+"/update/{id}";
     public static final String DELETE_CUSTOMER= CUSTOMER+"/customerDelete/{id}";
     public static final String LOGIN_CUSTOMER= CUSTOMER+"loginCustomer";
+    public static final String CHANGE_CUSTOMER_PASSWORD= CUSTOMER+"/changeCustomerPassword";
+    public static final String FORGOT_CUSTOMER_PASSWORD= CUSTOMER+"/forgotCustomerPassword";
 
 
     public static final String EMPLOYEE="/employee";
@@ -21,6 +23,9 @@ public class UsersEndPoints {
     public static final String FIND_EMPLOYEE_BY_ID= EMPLOYEE+"/{id}";
     public static final String UPDATE_EMPLOYEE= EMPLOYEE+"/update/{id}";
     public static final String DELETE_EMPLOYEE= EMPLOYEE+"/delete/{id}";
+    public static final String LOGIN_EMPLOYEE= EMPLOYEE+"loginEmployee";
+
+
 
     public static final String EMPLOYEESHIFT="/employeeShift";
     public static final String FIND_EMPLOYEESHIFT=EMPLOYEESHIFT+"/list";
@@ -37,6 +42,8 @@ public class UsersEndPoints {
     public static final String DELETE_USER= USER+"/delete/{id}";
     public static final String CHANGE_USER_PASSWORD= USER+"/changeUserPassword";
     public static final String FORGOT_USER_PASSWORD= USER+"/forgotUserPassword";
+    public static final String LOGIN_USER= USER+"loginUser";
+
 
 
 

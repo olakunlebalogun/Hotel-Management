@@ -18,14 +18,15 @@ import java.util.List;
 @Table(name = "rooms")
 public class Rooms extends BaseEntity {
 
-    private String room_type;
-    private String room_no;
-    private String room_description;
+    private String category;
+    private Integer roomNumber;
+    private String description;
     private Double price;
-    private String room_status;
+    private String status;
     private boolean isAvailable;
     private String state;
-    private String current_customer;
+    private String currentCustomer;
+    private String createdBy;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
@@ -36,7 +37,7 @@ public class Rooms extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "room_type_id")
-    private RoomType roomtype;
+    private RoomCategory roomCategory;
 
 
     public Rooms() {

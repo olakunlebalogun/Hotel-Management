@@ -38,11 +38,11 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     }
 
     @Override
-    public ApiResponse<ServiceRequestResponse> addServiceRequest(@RequestBody ServiceRequestRequest request) {
+    public ApiResponse<String> addServiceRequest(@RequestBody ServiceRequestRequest request) {
         ServiceRequest serviceRequest = Mapper.convertObject(request,ServiceRequest.class);
         serviceRequest=serviceRequestRepository.save(serviceRequest);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(serviceRequest, ServiceRequestResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     }
 
     @Override
-    public ApiResponse<ServiceRequestResponse>  updateServiceRequest(UUID serviceRequestId,
+    public ApiResponse<String>  updateServiceRequest(UUID serviceRequestId,
                                                                      @RequestBody ServiceRequestRequest request) {
         ServiceRequest serviceRequest = validateServiceRequest(serviceRequestId);
         serviceRequest.setService_id(request.getService_id());
@@ -73,8 +73,8 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
         serviceRequest.setServiced_by(request.getServiced_by());
 
         serviceRequest = serviceRequestRepository.save(serviceRequest);
-        return new ApiResponse<ServiceRequestResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(serviceRequest,ServiceRequestResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
 

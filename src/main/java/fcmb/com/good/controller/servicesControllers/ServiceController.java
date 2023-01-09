@@ -6,8 +6,6 @@ import fcmb.com.good.model.dto.request.servicesRequest.ServicesRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.ServiceRequestResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.ServiceResponse;
-import fcmb.com.good.model.entity.services.ServiceRequest;
-import fcmb.com.good.model.entity.services.Services;
 import fcmb.com.good.services.service.ServiceRequestService;
 import fcmb.com.good.services.service.ServiceService;
 import io.swagger.annotations.ApiOperation;
@@ -50,13 +48,13 @@ public class ServiceController {
                                     //ADD_SERVICES
     @PostMapping(ADD_SERVICE_REQUEST)
     @ApiOperation(value = "Endpoint for adding new serviceRequest to database", response = String.class)
-    public ApiResponse<ServiceRequestResponse> addServiceRequest(@Valid @RequestBody ServiceRequestRequest request) {
+    public ApiResponse<String> addServiceRequest(@Valid @RequestBody ServiceRequestRequest request) {
         return serviceRequestService.addServiceRequest(request);
     }
 
     @PostMapping(ADD_SERVICE)
     @ApiOperation(value = "Endpoint for adding new service to database", response = String.class)
-    public ApiResponse<ServiceResponse> addService(@RequestBody ServicesRequest request) {
+    public ApiResponse<String> addService(@RequestBody ServicesRequest request) {
         return serviceService.addService(request);
     }
 
@@ -78,15 +76,15 @@ public class ServiceController {
                                                 //UPDATE_SERVICE
     @PutMapping(UPDATE_SERVICE_REQUEST)
     @ApiOperation(value = "Endpoint for updating serviceRequest by id from database", response = String.class)
-    public ApiResponse<ServiceRequestResponse> updateServiceRequest(@PathVariable(value = "id") UUID serviceRequest_id,
-                                                                   @RequestBody ServiceRequestRequest request) {
+    public ApiResponse<String> updateServiceRequest(@PathVariable(value = "id") UUID serviceRequest_id,
+                                                    @RequestBody ServiceRequestRequest request) {
         return serviceRequestService.updateServiceRequest(serviceRequest_id, request);
     }
 
     @PutMapping(UPDATE_SERVICE)
     @ApiOperation(value = "Endpoint for updating service by id from database", response = String.class)
-    public ApiResponse<ServiceResponse> updateService(@PathVariable(value = "id") UUID service_id,
-                                                      @RequestBody ServicesRequest request) {
+    public ApiResponse<String> updateService(@PathVariable(value = "id") UUID service_id,
+                                             @RequestBody ServicesRequest request) {
         return serviceService.updateService(service_id, request);
     }
 

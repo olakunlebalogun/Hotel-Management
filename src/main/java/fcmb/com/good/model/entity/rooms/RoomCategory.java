@@ -12,18 +12,18 @@ import java.util.List;
 @AllArgsConstructor
 @EntityListeners(BaseListener.class)
 @Entity
-@Table(name = "roomType")
-public class RoomType extends BaseEntity {
+@Table(name = "roomCategory")
+public class RoomCategory extends BaseEntity {
 
-    private String room_type;
+    private String category;
     private String description;
     private String cost;
     private String status;
 
-    @OneToMany(mappedBy = "room_type", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "roomCategory", fetch = FetchType.LAZY)
     private List<Rooms> roomsList;
 
-    public RoomType(){}
+    public RoomCategory(){}
 
 
 

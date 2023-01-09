@@ -40,11 +40,11 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
     }
 
     @Override
-    public ApiResponse<ProductPurchaseResponse> addProductPurchase(@RequestBody ProductPurchaseRequest request) {
+    public ApiResponse<String> addProductPurchase(@RequestBody ProductPurchaseRequest request) {
         ProductPurchase productPurchase = Mapper.convertObject(request,ProductPurchase.class);
         productPurchase=productPurchaseRepository.save(productPurchase);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(productPurchase,ProductPurchaseResponse.class));
+                "Record Added Successfully");
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
     }
 
     @Override
-        public ApiResponse<ProductPurchaseResponse> updateProductPurchase(@RequestParam UUID productPurchaseId,
+        public ApiResponse<String> updateProductPurchase(@RequestParam UUID productPurchaseId,
                                                                           @RequestBody ProductPurchaseRequest request) {
         ProductPurchase productPurchase = validateProductPurchase(productPurchaseId);
         productPurchase.setProduct_id(request.getProduct_id());
@@ -76,8 +76,8 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         productPurchase.setPrice(request.getPrice());
 
         productPurchase = productPurchaseRepository.save(productPurchase);
-        return new ApiResponse<ProductPurchaseResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(productPurchase,ProductPurchaseResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

@@ -36,11 +36,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public ApiResponse<DocumentResponse> addDocument(@RequestBody DocumentRequest request) {
+    public ApiResponse<String> addDocument(@RequestBody DocumentRequest request) {
         Document document = Mapper.convertObject(request,Document.class);
         document=documentRepository.save(document);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(document, DocumentResponse.class));
+                "Record added successfully");
     }
 
     @Override
@@ -62,7 +62,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public ApiResponse<DocumentResponse> updateDocument(UUID documentId, DocumentRequest request) {
+    public ApiResponse<String> updateDocument(UUID documentId, DocumentRequest request) {
         Document document = validateDocument(documentId);
         document.setType(request.getType());
         document.setName(request.getName());
@@ -70,8 +70,8 @@ public class DocumentServiceImpl implements DocumentService {
         document.setDescription(request.getDescription());
 
         document = documentRepository.save(document);
-        return new ApiResponse<DocumentResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(document,DocumentResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record added Successfully");
     }
 
     @Override

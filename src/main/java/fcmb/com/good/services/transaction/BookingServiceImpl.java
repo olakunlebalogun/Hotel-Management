@@ -39,11 +39,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ApiResponse<BookingResponse> addBooking(@RequestBody BookingRequest request) {
+    public ApiResponse<String> addBooking(@RequestBody BookingRequest request) {
         Booking booking = Mapper.convertObject(request,Booking.class);
         booking=bookingRepository.save(booking);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(booking,BookingResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -65,7 +65,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ApiResponse<BookingResponse> updateBooking(UUID bookingId, @RequestBody BookingRequest request) {
+        public ApiResponse<String> updateBooking(UUID bookingId, @RequestBody BookingRequest request) {
         Booking booking = validateBooking(bookingId);
         booking.setCustomer_id(request.getCustomer_id());
         booking.setRoom_id(request.getRoom_id());
@@ -76,8 +76,8 @@ public class BookingServiceImpl implements BookingService {
         booking.setNight(request.getNight());
 
         booking = bookingRepository.save(booking);
-        return new ApiResponse<BookingResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(booking,BookingResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

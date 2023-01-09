@@ -1,6 +1,8 @@
 package fcmb.com.good.services.user;
 
 import fcmb.com.good.model.dto.request.userRequest.EmployeeRequest;
+import fcmb.com.good.model.dto.request.userRequest.loginEmployeeRequest;
+import fcmb.com.good.model.dto.request.userRequest.loginUserRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.userResponse.EmployeeResponse;
 
@@ -12,13 +14,15 @@ public interface EmployeeService {
 
    ApiResponse<List<EmployeeResponse>> getListOfEmployee(int page, int size);
 
-    ApiResponse<EmployeeResponse> addEmployee(EmployeeRequest request);
+    ApiResponse<String> addEmployee(EmployeeRequest request);
 
     ApiResponse<EmployeeResponse> getEmployeeById(UUID employeeId);
 
-    ApiResponse<EmployeeResponse> updateEmployee(UUID employeeId, EmployeeRequest employee);
+    ApiResponse<String> updateEmployee(UUID employeeId, EmployeeRequest employee);
 
     ApiResponse<String> deleteEmployee(UUID employeeId);
+
+    ApiResponse<String> loginEmployee(String email, loginEmployeeRequest request);
 
 
 

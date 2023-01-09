@@ -13,11 +13,11 @@ public interface RoomService {
 
     ApiResponse<List<RoomResponse>> getListOfRoom(int page, int size);
 
-    ApiResponse<RoomResponse> addRoom(RoomRequest request);
+    ApiResponse<String> addRoom(RoomRequest request);
 
     ApiResponse<RoomResponse>getRoomById(UUID roomId);
 
-    ApiResponse<RoomResponse> updateRoom( UUID roomId, RoomRequest request);
+    ApiResponse<String> updateRoom( UUID roomId, RoomRequest request);
 
     ApiResponse<String> deleteRoom(UUID roomId);
 

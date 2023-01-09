@@ -39,11 +39,11 @@ public class ExpenseRequestServiceImpl implements ExpenseRequestService {
     }
 
     @Override
-    public ApiResponse<ExpenseRequestResponse> addExpenseRequest(@RequestBody ExpenseRequestRequest request) {
+    public ApiResponse<String> addExpenseRequest(@RequestBody ExpenseRequestRequest request) {
         ExpenseRequest expenseRequest = Mapper.convertObject(request,ExpenseRequest.class);
         expenseRequest=expenseRequestRepository.save(expenseRequest);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(expenseRequest,ExpenseRequestResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ExpenseRequestServiceImpl implements ExpenseRequestService {
     }
 
     @Override
-    public ApiResponse<ExpenseRequestResponse> updateExpenseRequest(@RequestParam UUID expenseRequestId,
+    public ApiResponse<String> updateExpenseRequest(@RequestParam UUID expenseRequestId,
                                                                     @RequestBody ExpenseRequestRequest request) {
         ExpenseRequest expenseRequest = validateExpenseRequest(expenseRequestId);
         expenseRequest.setExpense_id(request.getExpense_id());
@@ -76,8 +76,8 @@ public class ExpenseRequestServiceImpl implements ExpenseRequestService {
         expenseRequest.setStatus(request.getStatus());
 
         expenseRequest = expenseRequestRepository.save(expenseRequest);
-        return new ApiResponse<ExpenseRequestResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(expenseRequest,ExpenseRequestResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Update Successfully");
     }
 
     @Override

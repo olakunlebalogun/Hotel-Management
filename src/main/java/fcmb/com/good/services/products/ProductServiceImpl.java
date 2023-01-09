@@ -7,9 +7,8 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductResponse;
-import fcmb.com.good.model.entity.products.ProductCategory;
 import fcmb.com.good.model.entity.products.Product;
-import fcmb.com.good.model.entity.products.ProductPurchase;
+import fcmb.com.good.model.entity.products.ProductCategory;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.products.ProductCategoryRepository;
 import fcmb.com.good.repo.products.ProductRepository;
@@ -22,7 +21,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -32,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     private  final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
     private final JwtFilter jwtFilter;
-private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public ApiResponse<List<ProductResponse>> getListOfProduct(int page, int size) {
@@ -50,55 +51,56 @@ private final UserRepository userRepository;
 //                "You are not Authorized");
     }
 
-    @Override
-    public ApiResponse<List<ProductResponse>> getListOfProductByName(int page, int size, String name) {
-
-        List<Product> productList = new ArrayList<>();//productRepository.findByName(String.valueOf(PageRequest.of(page,size)));
-
-        log.info("List of products by name");
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(productList, ProductResponse.class));
-    }
 
     @Override
-    public ApiResponse<ProductResponse> getListOfProductByCategory(UUID productCategoryId) {
-        Optional<ProductCategory> productCategory = productCategoryRepository.findByUuid(productCategoryId);
-        if(productCategory.isEmpty())
+    public List<Product> searchProductsByName(String name) {
+        List<Product> searchProductsByName = productRepository.searchProductsByName(name);
+
+        if(searchProductsByName.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        List<Product> products = productRepository.findProductsByCategory(productCategory);
-
-        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(products, ProductResponse.class));
+        return searchProductsByName;
     }
 
-private void validateDuplicationProduct(String name){
-        Optional<Product> existingProduct = productRepository.findByName(name);
-        if(existingProduct.isPresent())
-            throw new RecordNotFoundException("Duplicate record");
-}
     @Override
-    public ApiResponse<String> updateProduct(UUID productId,ProductRequest request) {
-        if(jwtFilter.isAdmin()){
+    public List<Product> searchProductsByCategory(String category) {
+        List<Product> searchProductsByCategory = productRepository.searchProductsByCategory(category);
 
-            Product product = validateProducts(productId);
-            product.setName(request.getName());
-            product.setDescription(request.getDescription());
-            product.setQuantity(product.getQuantity()+request.getQuantity());
-            product.setPrice(request.getPrice());
-            //products.setCategory(request.getCategory());
-            //products.setPosted_by(request.getPosted_by());
-            product.setCode(request.getCode());
-            product.setLocation(request.getLocation());
+        if(searchProductsByCategory.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-            product = productRepository.save(product);
-            return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    "Record updated successfully");
-        }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
+        return searchProductsByCategory;
     }
+
+
+    @Override
+    public ApiResponse<ProductResponse> getProductById(@RequestParam("id") UUID productId) {
+//        if(jwtFilter.isAdmin()){
+
+        Optional<Product> productOptional = productRepository.findByUuid(productId);
+        if(productOptional.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        Product product = productOptional.get();
+        return new ApiResponse<ProductResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(product,ProductResponse.class));
+    }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
+
+
+    private Product validateProducts(UUID uuid){
+        return productRepository.findByUuid(uuid).orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+    }
+
+    private void validateDuplicationProduct(String name){
+        Optional<Product> existingProductOptional = productRepository.findByName(name);
+        if(existingProductOptional.isPresent())
+            throw new RecordNotFoundException("Duplicate record");
+    }
+
+
     @Override
     /**
      * @Validate that no duplicate product allow*
@@ -109,65 +111,70 @@ private void validateDuplicationProduct(String name){
      * * */
     public ApiResponse<String> addProducts(ProductRequest request) {
         validateDuplicationProduct(request.getName());
-        ProductCategory existingCategory = productCategoryRepository.findByUuid(request.getCategory())
-                                    .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategory())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
-                                    .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-            Product product = new Product();
-            product.setName(request.getName());
-            product.setDescription(request.getDescription());
-            product.setQuantity(request.getQuantity());
-            product.setPrice(request.getPrice());
-            product.setCategory(existingCategory.getUuid().toString());
-            product.setCode(request.getCode());
-            product.setLocation(request.getLocation());
-            product.setProductCategory(existingCategory);
-            product.setStatus(request.getStatus());
-            product.setCreatedBy(existingUser);
-            productRepository.save(product);
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        Product product = new Product();
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setQuantity(request.getQuantity());
+        product.setPrice(request.getPrice());
+        product.setCategory(existingProductCategory.getUuid().toString());
+        product.setCode(request.getCode());
+        product.setLocation(request.getLocation());
+        product.setProductCategory(existingProductCategory);
+        product.setStatus(request.getStatus());
+        product.setCreatedBy(existingUser);
+        productRepository.save(product);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record created successfully");
     }
 
 
     @Override
-    public ApiResponse<ProductResponse> getProductById(@RequestParam("id") UUID productId) {
-        if(jwtFilter.isAdmin()){
+    public ApiResponse<String> updateProduct(UUID productId, ProductRequest request) {
+//        if(jwtFilter.isAdmin()){
+        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategory())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-            Optional<Product> productOptional = productRepository.findByUuid(productId);
+            Product product = validateProducts(productId);
+            product.setName(request.getName());
+            product.setDescription(request.getDescription());
+            product.setQuantity(product.getQuantity()+request.getQuantity());
+            product.setPrice(request.getPrice());
+            product.setCategory(String.valueOf(request.getCategory()));
+            product.setCategory(existingProductCategory.getUuid().toString());
+            product.setCode(request.getCode());
+            product.setLocation(request.getLocation());
+            product.setPurchasedPrice(request.getPurchasedPrice());
+            product.setStatus(request.getStatus());
 
-            if(productOptional.isEmpty())
-                throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-            Product pr = productOptional.get();
-            return new ApiResponse<ProductResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertObject(pr,ProductResponse.class));
+            product = productRepository.save(product);
+            return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                    "Record updated successfully");
         }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
-
-    private Product validateProducts(UUID uuid){
-        return productRepository.findByUuid(uuid).orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-    }
-
-
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
 
     @Override
     public ApiResponse<String> deleteProduct(UUID productId) {
-        if(jwtFilter.isAdmin()){
-
+//        if(jwtFilter.isAdmin()){
             Product product = validateProducts(productId);
             productRepository.delete(product);
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Deleted successfully");
         }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
 
 
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
 
 }

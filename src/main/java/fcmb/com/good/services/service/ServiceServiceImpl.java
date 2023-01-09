@@ -39,11 +39,11 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public ApiResponse<ServiceResponse> addService(@RequestBody ServicesRequest request) {
+    public ApiResponse<String> addService(@RequestBody ServicesRequest request) {
         Services services = Mapper.convertObject(request,Services.class);
         services=servicesRepository.save(services);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(services, ServiceResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -64,15 +64,15 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public ApiResponse<ServiceResponse> updateService(UUID serviceId, @RequestBody ServicesRequest request) {
+    public ApiResponse<String> updateService(UUID serviceId, @RequestBody ServicesRequest request) {
         Services services = validateServices(serviceId);
         services.setService_type(request.getService_type());
         services.setDescription(request.getDescription());
         services.setService_category(request.getService_category());
 
         services = servicesRepository.save(services);
-        return new ApiResponse<ServiceResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(services,ServiceResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

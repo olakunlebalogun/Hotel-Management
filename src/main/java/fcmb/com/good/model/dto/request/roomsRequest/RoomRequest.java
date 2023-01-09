@@ -6,6 +6,8 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 
 @Data
@@ -13,35 +15,38 @@ public class RoomRequest  {
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      private String room_type;
+      private UUID category;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      private String room_no;
+      private Integer roomNumber;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      private String room_description;
+      private String description;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
       private Double price;
 
-//      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-      private String room_status;
+      @NotNull(message = INVALID_NAME)
+      @NotEmpty(message = INVALID_NAME)
+      private String status;
 
-//      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-      private String available_rooms;
+      @NotNull(message = INVALID_NAME)
+      @NotEmpty(message = INVALID_NAME)
+      private String availableRooms;
 
-//      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
+      @NotNull(message = INVALID_NAME)
+      @NotEmpty(message = INVALID_NAME)
       private String state;
 
-//      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-      private String current_customer;
+      @NotNull(message = INVALID_NAME)
+      @NotEmpty(message = INVALID_NAME)
+      private String currentCustomer;
 
+      @NotNull(message = INVALID_NAME)
+      @NotEmpty(message = INVALID_NAME)
+      private String createdBy;
 
 }

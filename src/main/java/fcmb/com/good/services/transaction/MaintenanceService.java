@@ -13,11 +13,11 @@ public interface MaintenanceService {
 
     ApiResponse<List<MaintenanceResponse>> getListOfMaintenanceRequest(int page, int size);
 
-    ApiResponse<MaintenanceResponse> addMaintenanceRequest(MaintenanceRequestRequest request);
+    ApiResponse<String> addMaintenanceRequest(MaintenanceRequestRequest request);
 
     ApiResponse<MaintenanceResponse> getMaintenanceRequestById(UUID maintenanceId);
 
-    ApiResponse<MaintenanceResponse> updateMaintenanceRequest(UUID maintenanceId, MaintenanceRequestRequest request);
+    ApiResponse<String> updateMaintenanceRequest(UUID maintenanceId, MaintenanceRequestRequest request);
 
     ApiResponse<String> deleteMaintenanceRequest(UUID maintenanceId);
 

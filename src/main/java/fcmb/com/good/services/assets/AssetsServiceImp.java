@@ -38,11 +38,10 @@ public class AssetsServiceImp implements AssetsService {
     }
 
     @Override
-    public ApiResponse<AssetsResponse> addAssets(@RequestBody AssetsRequest request) {
+    public ApiResponse<String> addAssets(@RequestBody AssetsRequest request) {
         Assets assets = Mapper.convertObject(request,Assets.class);
         assets=assetsRepository.save(assets);
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(assets, AssetsResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), "Record Added Successfully");
     }
 
     @Override
@@ -63,7 +62,7 @@ public class AssetsServiceImp implements AssetsService {
     }
 
     @Override
-    public ApiResponse<AssetsResponse> updateAssets(UUID assets_id, @RequestBody AssetsRequest request) {
+    public ApiResponse<String> updateAssets(UUID assets_id, @RequestBody AssetsRequest request) {
         Assets assets = validateAssets(assets_id);
         assets.setCategory_id(request.getCategory_id());
         assets.setAsset_name(request.getAsset_name());
@@ -75,8 +74,8 @@ public class AssetsServiceImp implements AssetsService {
         assets.setLocation(request.getLocation());
 
         assets = assetsRepository.save(assets);
-        return new ApiResponse<AssetsResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(assets,AssetsResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

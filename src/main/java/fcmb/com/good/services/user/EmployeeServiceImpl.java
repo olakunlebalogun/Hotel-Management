@@ -5,9 +5,11 @@ import fcmb.com.good.filter.JwtFilter;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.userRequest.EmployeeRequest;
+import fcmb.com.good.model.dto.request.userRequest.loginEmployeeRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.dto.response.userResponse.EmployeeResponse;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.entity.user.Employee;
 import fcmb.com.good.repo.user.EmployeeRepository;
@@ -49,8 +51,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public ApiResponse<EmployeeResponse> addEmployee(@RequestBody EmployeeRequest request) {
-        if(jwtFilter.isAdmin()){
+    public ApiResponse<String> addEmployee(@RequestBody EmployeeRequest request) {
+//        if(jwtFilter.isAdmin()){
             Optional<Employee> employee  = validateEmployeeByEmailId(request.getEmail());
             if(!employee.isEmpty()){
                 return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
@@ -58,11 +60,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
             employeeRepository.save(getEmployeeFromRequest(request));
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertObject(employee, EmployeeResponse.class));
+                    "Record added Successfully");
         }
-        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
+//        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
 
     @Override
@@ -83,10 +85,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
-    private Employee validateEmployee(UUID uuid){
+    private Employee validateEmployee(UUID uuid) {
         Optional<Employee> employee = employeeRepository.findByUuid(uuid);
 
-        if(employee.isEmpty())
+        if (employee.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         return employee.get();
     }
@@ -110,7 +112,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public ApiResponse<EmployeeResponse> updateEmployee(UUID employeeId, @RequestBody EmployeeRequest employee) {
+    public ApiResponse<String> updateEmployee(UUID employeeId, @RequestBody EmployeeRequest employee) {
         if(jwtFilter.isAdmin()){
             Employee employ = validateEmployee(employeeId);
             employ.setName(employee.getName());
@@ -124,8 +126,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             employ.setUsername(employee.getUsername());
 
             employ = employeeRepository.save(employ);
-            return new ApiResponse<EmployeeResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertObject(employ,EmployeeResponse.class));
+            return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                    "Record Updated Successfully");
         }
         return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
                 "You are not Authorized");
@@ -134,14 +136,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public ApiResponse<String> deleteEmployee(UUID employeeId) {
-        if(jwtFilter.isAdmin()){
+//        if(jwtFilter.isAdmin()){
             Employee employee = validateEmployee(employeeId);
             employeeRepository.delete(employee);
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Deleted successfully");
         }
-        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
+//        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
+
+    @Override
+    public ApiResponse<String> loginEmployee(String email, loginEmployeeRequest request) {
+        Employee employee = employeeRepository.findByEmail(email);
+
+        if (employee.getEmail().equals(request.getEmail())
+                && employee.getPassword().equals(request.getPassword())) {
+
+            return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                    "Employee login successfully");
+        }
+
+        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.BAD_REQUEST.value(),
+                "Incorrect Email or Password");
     }
 
 

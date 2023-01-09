@@ -6,9 +6,8 @@ import fcmb.com.good.model.dto.request.roomsRequest.RoomTypeRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomTypeResponse;
-import fcmb.com.good.model.entity.rooms.RoomType;
 import fcmb.com.good.services.rooms.RoomService;
-import fcmb.com.good.services.rooms.RoomTypeService;
+import fcmb.com.good.services.rooms.RoomCategoryService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 public class RoomController {
 
     private final RoomService roomService;
-    private final RoomTypeService roomTypeService;
+    private final RoomCategoryService roomTypeService;
 
 
                                     //FIND_LISTS_OF_ROOMS
@@ -51,13 +50,13 @@ public class RoomController {
                                      //ADD_ROOMS
     @PostMapping(ADD_ROOM)
     @ApiOperation(value = "Endpoint for adding new room to database", response = String.class)
-    public ApiResponse<RoomResponse> addRoom(@Valid @RequestBody RoomRequest request) {
+    public ApiResponse<String> addRoom(@Valid @RequestBody RoomRequest request) {
         return roomService.addRoom(request);
     }
 
     @PostMapping(ADD_ROOM_TYPE)
     @ApiOperation(value = "Endpoint for adding new roomType to database", response = String.class)
-    public ApiResponse<RoomTypeResponse> addRoomType(@Valid @RequestBody RoomTypeRequest request) {
+    public ApiResponse<String> addRoomType(@Valid @RequestBody RoomTypeRequest request) {
         return roomTypeService.addRoomType(request);
     }
 
@@ -79,14 +78,14 @@ public class RoomController {
                                         //UPDATE_ROOM
     @PutMapping(UPDATE_ROOM)
     @ApiOperation(value = "Endpoint for updating room by id from database", response = String.class)
-    public ApiResponse<RoomResponse> updateRoom(@PathVariable(value = "id") UUID room_id, @RequestBody RoomRequest request) {
+    public ApiResponse<String> updateRoom(@PathVariable(value = "id") UUID room_id, @RequestBody RoomRequest request) {
         return roomService.updateRoom(room_id, request);
     }
 
     @PutMapping(UPDATE_ROOM_TYPE)
     @ApiOperation(value = "Endpoint for updating roomType by id from database", response = String.class)
-    public ApiResponse<RoomTypeResponse> updateRoomType(@PathVariable(value = "id") UUID roomType_id,
-                                                       @RequestBody RoomTypeRequest request) {
+    public ApiResponse<String> updateRoomType(@PathVariable(value = "id") UUID roomType_id,
+                                              @RequestBody RoomTypeRequest request) {
         return roomTypeService.updateRoomType(roomType_id, request);
     }
 

@@ -35,22 +35,25 @@ public class ProductRequest  {
      @NotEmpty(message = INVALID_NAME)
      private UUID category;
 
-//     @NotNull(message = INVALID_NAME)
-//     @NotEmpty(message = INVALID_NAME)
+     @NotNull(message = INVALID_NAME)
+     @NotEmpty(message = INVALID_NAME)
      private String code;
 
-//     @NotNull(message = INVALID_NAME)
-//     @NotEmpty(message = INVALID_NAME)
+     @NotNull(message = INVALID_NAME)
+     @NotEmpty(message = INVALID_NAME)
      private String location;
 
-//     @NotNull(message = INVALID_NAME)
-//     @NotEmpty(message = INVALID_NAME)
+     @NotNull(message = INVALID_NAME)
+     @NotEmpty(message = INVALID_NAME)
      private String status;
 
-          @NotNull(message = INVALID_NAME)
+     @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
      private UUID createdBy;
-          private Double purchasedPrice;
+
+     @NotNull(message = INVALID_NAME)
+     @Min(value=50, message = INVALID_NAME)
+     private Double purchasedPrice;
 
 
 }

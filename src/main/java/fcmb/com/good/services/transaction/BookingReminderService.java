@@ -13,11 +13,11 @@ public interface BookingReminderService {
 
     ApiResponse<List<BookingReminderResponse>> getListOfBookingReminder(int page, int size);
 
-    ApiResponse<BookingReminderResponse> addBookingReminder(BookingReminderRequest request);
+    ApiResponse<String> addBookingReminder(BookingReminderRequest request);
 
     ApiResponse<BookingReminderResponse> getBookingReminderById(UUID bookingReminderId);
 
-    ApiResponse<BookingReminderResponse> updateBookingReminder( UUID bookingReminderId, BookingReminderRequest request);
+    ApiResponse<String> updateBookingReminder( UUID bookingReminderId, BookingReminderRequest request);
 
     ApiResponse<String> deleteBookingReminder(UUID bookingReminderId);
 

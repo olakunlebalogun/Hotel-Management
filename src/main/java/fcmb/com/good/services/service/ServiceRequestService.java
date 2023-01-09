@@ -12,11 +12,11 @@ public interface ServiceRequestService {
 
     ApiResponse<List<ServiceRequestResponse>> getListOfServiceRequest(int page, int size);
 
-    ApiResponse<ServiceRequestResponse> addServiceRequest(ServiceRequestRequest request);
+    ApiResponse<String> addServiceRequest(ServiceRequestRequest request);
 
     ApiResponse<ServiceRequestResponse> getServiceRequestById(UUID serviceRequestId);
 
-    ApiResponse<ServiceRequestResponse> updateServiceRequest( UUID serviceRequestId, ServiceRequestRequest request);
+    ApiResponse<String> updateServiceRequest( UUID serviceRequestId, ServiceRequestRequest request);
 
     ApiResponse<String> deleteServiceRequest(UUID serviceRequestId);
 
