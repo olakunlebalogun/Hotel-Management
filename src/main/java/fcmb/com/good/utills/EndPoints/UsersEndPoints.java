@@ -24,7 +24,8 @@ public class UsersEndPoints {
     public static final String UPDATE_EMPLOYEE= EMPLOYEE+"/update/{id}";
     public static final String DELETE_EMPLOYEE= EMPLOYEE+"/delete/{id}";
     public static final String LOGIN_EMPLOYEE= EMPLOYEE+"loginEmployee";
-
+    public static final String CHANGE_EMPLOYEE_PASSWORD= EMPLOYEE+"/changeEmployeePassword";
+    public static final String FORGOT_EMPLOYEE_PASSWORD= EMPLOYEE+"/forgotEmployeePassword";
 
 
     public static final String EMPLOYEESHIFT="/employeeShift";

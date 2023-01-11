@@ -258,6 +258,12 @@ public class UsersController  {
         return customerService.changeCustomerPassword(email, request);
     }
 
+    @PutMapping(CHANGE_EMPLOYEE_PASSWORD)
+    @ApiOperation(value = "Endpoint for updating employee password from database", response = String.class)
+    public ApiResponse<String> changeEmployeePassword(@RequestBody changeEmployeePasswordRequest request, String email) {
+        return employeeService.changeEmployeePassword(email, request);
+    }
+
 
                                         //Forgot Password
     @GetMapping(FORGOT_USER_PASSWORD)
@@ -271,6 +277,13 @@ public class UsersController  {
     public ApiResponse<String> forgotCustomerPassword(String email) throws MessagingException {
         return customerService.forgotCustomerPassword(email);
     }
+
+    @GetMapping(FORGOT_EMPLOYEE_PASSWORD)
+    @ApiOperation(value = "Endpoint for getting forgotten employee password from database", response = String.class)
+    public ApiResponse<String> forgotEmployeePassword(String email) throws MessagingException {
+        return employeeService.forgotEmployeePassword(email);
+    }
+
 
                                         //login Users
     @PostMapping(LOGIN_USER)

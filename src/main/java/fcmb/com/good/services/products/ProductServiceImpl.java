@@ -36,6 +36,11 @@ public class ProductServiceImpl implements ProductService {
     private final UserRepository userRepository;
 
     @Override
+    /**
+     * @Finding the list of all products*
+     * @Validate if the List of products is empty otherwise return record not found*
+     * @return the list of products and a Success Message* *
+     * * */
     public ApiResponse<List<ProductResponse>> getListOfProduct(int page, int size) {
 //        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
 
@@ -53,6 +58,11 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
+    /**
+     * @Search the list of all products by name*
+     * @Validate if the List of products is empty otherwise return record not found*
+     * @return the list of products by name* *
+     * * */
     public List<Product> searchProductsByName(String name) {
         List<Product> searchProductsByName = productRepository.searchProductsByName(name);
 
@@ -63,6 +73,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    /**
+     * @Search the list of all products by category*
+     * @Validate if the List of productCategory is empty otherwise return record not found*
+     * @return the list of products by categoryName* *
+     * * */
     public List<Product> searchProductsByCategory(String category) {
         List<Product> searchProductsByCategory = productRepository.searchProductsByCategory(category);
 
@@ -74,6 +89,12 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
+    /**
+     * @Finding the list of all productOptional by uuid*
+     * @Validate if the List of productOptional is empty otherwise return record not found
+     * Create the product definition and get the product Optional by uuid
+     * @return the list of products and a Success Message* *
+     * * */
     public ApiResponse<ProductResponse> getProductById(@RequestParam("id") UUID productId) {
 //        if(jwtFilter.isAdmin()){
 
@@ -89,11 +110,19 @@ public class ProductServiceImpl implements ProductService {
 //                "You are not Authorized");
 //    }
 
-
+    /**
+     * @validating products by uuid*
+     * @Validate if products is empty otherwise return record not found
+     * @return product
+     * * */
     private Product validateProducts(UUID uuid){
         return productRepository.findByUuid(uuid).orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
     }
 
+    /**
+     * @Validating existingProductOptional by name*
+     * @Validate if the List of existingProductOptional is empty otherwise return Duplicate Record*
+     * * */
     private void validateDuplicationProduct(String name){
         Optional<Product> existingProductOptional = productRepository.findByName(name);
         if(existingProductOptional.isPresent())
@@ -136,6 +165,12 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
+    /**
+     * @Validating the list of existingProductCategory by uuid*
+     * @Validate if the List of existingProductCategory is empty otherwise return record not found
+     * Create the product definition and save
+     * @return a Success Message* *
+     * * */
     public ApiResponse<String> updateProduct(UUID productId, ProductRequest request) {
 //        if(jwtFilter.isAdmin()){
         ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategory())
@@ -163,6 +198,12 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
+    /**
+     * @validating products by uuid*
+     * @Validate if products is empty otherwise return record not found
+     * @Delete product
+     * @return a Success Message* *
+     * * */
     public ApiResponse<String> deleteProduct(UUID productId) {
 //        if(jwtFilter.isAdmin()){
             Product product = validateProducts(productId);

@@ -37,6 +37,11 @@ public class CustomerServiceImpl implements CustomerService  {
     private String uploadLocation;
 
     @Override
+    /**
+     * @Finding the list of Customer
+     * @Validate if the List of customer is empty otherwise return record not found
+     * @return the list of customer and a Success Message*
+     * * */
     public ApiResponse<List<CustomerResponse>> getListOfCustomer(int page, int size) {
 //        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()){
             List<Customer> customerList = customerRepository.findAll(PageRequest.of(page,size)).toList();
@@ -51,8 +56,16 @@ public class CustomerServiceImpl implements CustomerService  {
 //    }
 
     @Override
+    /**
+     * @Validate that no duplicate users is allowed*
+     * @Validate that user exists otherwise return record not found*
+     * Create user definition and save
+     * @return success message
+     * * */
     public ApiResponse<String> addCustomer(@RequestBody CustomerRequest request) {
+
         Optional<Customer> customer  = validateCustomerByEmailId(request.getEmail());
+
             if(!customer.isEmpty()){
                 return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
                         "Email Already Exist");
@@ -65,32 +78,55 @@ public class CustomerServiceImpl implements CustomerService  {
 
 
     @Override
+    /**
+     * @Finding the list of customerOptional by uuid*
+     * @Validate if the List of customerOptional is empty otherwise return record not found
+     * Create the customer definition and get the customer
+     * @return the list of customer and a Success Message
+     * * */
     public ApiResponse<CustomerResponse> getCustomerById(UUID customerId) {
-        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()){
-            Optional<Customer> customer = customerRepository.findByUuid(customerId);
-            if(customer.isEmpty())
+//        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()){
+            Optional<Customer> customerOptional = customerRepository.findByUuid(customerId);
+
+            if(customerOptional.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-            Customer cm = customer.get();
+            Customer customer = customerOptional.get();
             return new ApiResponse<CustomerResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertObject(cm,CustomerResponse.class));
+                    Mapper.convertObject(customer,CustomerResponse.class));
         }
-        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
+//        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
+
+    /**
+     * @Validating existingCustomerOptional by Email
+     * @Validate if existingCustomerOptional is empty otherwise return Duplicate Record
+     * return existingCustomerOptional
+     * * */
     private Optional<Customer> validateCustomerByEmailId(String email){
-        Optional<Customer> customer = customerRepository.findByEmailId(email);
-        return customer;
+        Optional<Customer> existingCustomerOptional = customerRepository.findByEmailId(email);
+        return existingCustomerOptional;
     }
 
+
+    /**
+     * @validating customerOptional by uuid
+     * @Validate if the List of customer is empty otherwise return record not found
+     * @return customerOptional
+     * * */
     private Customer validateCustomer(UUID uuid){
-    Optional<Customer> customer = customerRepository.findByUuid(uuid);
-    if(customer.isEmpty())
+    Optional<Customer> customerOptional = customerRepository.findByUuid(uuid);
+    if(customerOptional.isEmpty())
         throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        return customer.get();
+        return customerOptional.get();
     }
 
+
+    /**
+     * Set and get the customers parameters
+     */
     private Customer getCustomerFromRequest(CustomerRequest request){
         Customer customer = new Customer();
         customer.setName(request.getName());
@@ -108,7 +144,14 @@ public class CustomerServiceImpl implements CustomerService  {
         return customer;
     }
 
+
     @Override
+    /**
+     * @validating customerOptional by uuid
+     * @Validate if the List of customer is empty otherwise return record not found
+     * Create the customer definition and update
+     * @return a Success Message
+     * * */
     public ApiResponse<String> updateCustomer(UUID customerId, @RequestBody CustomerRequest cst) {
 //        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()){
             Customer customer = validateCustomer(customerId);
@@ -130,20 +173,34 @@ public class CustomerServiceImpl implements CustomerService  {
 
 
     @Override
+    /**
+     * @validating customer by uuid
+     * @Validate if customer is empty otherwise return record not found
+     * @Delete customer
+     * @return a Success Message
+     * * */
     public ApiResponse<String> deleteCustomer(UUID customerId) {
-        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()){
+//        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()){
             Customer customer = validateCustomer(customerId);
             customerRepository.delete(customer);
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Deleted successfully");
         }
-        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
+//        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
     @Override
+    /**
+     * @Validating existingCustomer by Email
+     * @Validate customer password and change password
+     * @Save the new password
+     * @Return a Success Message if oldPassword is correct
+     * @Return a Failed Message if oldPassword is Incorrect
+     */
     public ApiResponse<String> changeCustomerPassword(String email, changeCustomerPasswordRequest request) {
         Customer customer = customerRepository.findByEmail(email);
+
         if(customer.getPassword().equals(request.getOldPassword())){
             customer.setPassword(request.getNewPassword());
             customerRepository.save(customer);
@@ -156,14 +213,29 @@ public class CustomerServiceImpl implements CustomerService  {
     }
 
     @Override
+    /**
+     * @Validating existingCustomer by Email
+     * @Getting email and password of customer and sending it to customer`s Email
+     * @Return a Success Message
+     */
     public ApiResponse<String> forgotCustomerPassword(String email) throws MessagingException {
+
         Customer customer = customerRepository.findByEmail(email);
+
         emailUtils.forgotMail(customer.getEmail(), "Credentials by Hotel Management System", customer.getPassword() );
 
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                "Check your email for credentials");    }
+                "Check your email for credentials");
+    }
+
 
     @Override
+    /**
+     * @Validating and finding existingCustomer by Email
+     * @Validate customer email and password
+     * @Return a Success Message if email and password is correct
+     * @Return a Failed Message if email and password is Incorrect
+     */
     public ApiResponse<String> loginCustomer(String email, loginCustomerRequest request) {
         Customer customer = customerRepository.findByEmail(email);
 

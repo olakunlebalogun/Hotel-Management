@@ -65,8 +65,8 @@ public class UploadServiceImpl  implements UploadService {
 
     @Override
     public  byte[] downloadPhoto(String fileName) throws IOException {
-        Optional<Document> document = documentRepository.findByName(fileName);
-        String filePath = String.valueOf(document.get().getFilePath());
+        Optional<Document> documentOptional = documentRepository.findByName(fileName);
+        String filePath = String.valueOf(documentOptional.get().getFilePath());
         byte[] image = Files.readAllBytes(new File(filePath).toPath());
         return image;
     }
