@@ -14,14 +14,17 @@ import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.utills.EmailUtils;
 import fcmb.com.good.utills.MessageUtil;
+import fcmb.com.good.utills.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -62,7 +65,7 @@ public class CustomerServiceImpl implements CustomerService  {
      * Create user definition and save
      * @return success message
      * * */
-    public ApiResponse<String> addCustomer(@RequestBody CustomerRequest request) {
+    public ApiResponse<String> addCustomer(@RequestBody CustomerRequest request) throws IOException {
 
         Optional<Customer> customer  = validateCustomerByEmailId(request.getEmail());
 
@@ -127,7 +130,11 @@ public class CustomerServiceImpl implements CustomerService  {
     /**
      * Set and get the customers parameters
      */
-    private Customer getCustomerFromRequest(CustomerRequest request){
+    private Customer getCustomerFromRequest(CustomerRequest request) throws IOException {
+
+//        String originalName = file.getOriginalFilename().replaceAll("[\\\\/><\\|\\s\"'{}()\\[\\]]+", "_");
+//        String filePath = getStoreLocationPath() + File.separator + Utils.getNewFileName(getStoreLocationPath(), originalName);
+
         Customer customer = new Customer();
         customer.setName(request.getName());
         customer.setEmail(request.getEmail());
@@ -141,6 +148,14 @@ public class CustomerServiceImpl implements CustomerService  {
         customer.setPhoto(request.getPhoto());
         customer.setRole(request.getRole());
         customer.setNin(request.getNin());
+
+//        customer.setName(file.getOriginalFilename());
+//        customer.setType(file.getContentType());
+//        customer.setSize(String.valueOf(file.getSize()));
+//        customer.setDescription(file.getName());
+//        customer.setFilePath(filePath);
+//        file.transferTo(new File(filePath));
+
         return customer;
     }
 
@@ -250,5 +265,7 @@ public class CustomerServiceImpl implements CustomerService  {
                 "Incorrect Email or Password");
     }
 
+    private String getStoreLocationPath() {return Utils.baseDir(uploadLocation).getPath();
+    }
 
 }

@@ -33,6 +33,11 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
     private final EmailUtils emailUtils;
 
     @Override
+    /**
+     * @Validate and Find the list of all productCategory
+     * @Validate if the List of productCategory is empty otherwise return record not found*
+     * @return the list of productCategory and a Success Message* *
+     * * */
     public ApiResponse<List<ProductCategoryResponse>> getListOfProductCategory(int page, int size) {
 //        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
 
@@ -50,56 +55,113 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
 
 
     @Override
+    /**
+     * @Validate that no duplicate productCategory is allowed
+     * @Validate that product category exists otherwise return record not found
+     * Create the product definition and save
+     * @return success message* *
+     * * */
     public ApiResponse<String> addProductCategory(@RequestBody ProductCategoryRequest request) {
+
+        Optional<ProductCategory> productCategoryOptional = validateDuplicateProductCategory(request.getName());
+
+        if (!productCategoryOptional.isEmpty()) {
+            return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
+                    "Duplicate Record");
+        }
+        productCategoryRepository.save(getProductCategoryFromRequest(request));
+
+        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Added successfully");
+    }
+
+    /**
+     * @Validating existingProductCategoryOptional by name
+     * @Validate if the List of existingProductCategoryOptional is empty otherwise return Duplicate Record
+     * */
+    private Optional<ProductCategory> validateDuplicateProductCategory(String name) {
+        Optional<ProductCategory> existingProductCategoryOptional = productCategoryRepository.findProductCategoryByName(name);
+        return existingProductCategoryOptional;
+
+    }
+
+    /**
+     * Set and get the productCategory parameters
+     */
+    private ProductCategory getProductCategoryFromRequest(ProductCategoryRequest request) {
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setName(request.getName());
+
+        return productCategory;
+    }
+
+    /**
+     * @validating productCategoryOptional by uuid
+     * @Validate if the List of productCategory is empty otherwise return record not found
+     * @return productCategoryOptional
+     * * */
+    private ProductCategory validateProductCategory(UUID uuid){
+        Optional<ProductCategory> productCategoryOptional = productCategoryRepository.findByUuid(uuid);
+        if(productCategoryOptional.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+        return productCategoryOptional.get();
+    }
+
+
+    @Override
+    /**
+     * @Validating and Finding the list of productCategoryOptional by uuid
+     * @Validate if the List of productCategoryOptional is empty otherwise return record not found
+     * Create the productCategory definition and get the productCategoryOptional by uuid
+     * @return the list of productCategory and a Success Message
+     * * */
+    public ApiResponse<ProductCategoryResponse> getProductCategoryById(@RequestParam("id") UUID productCategoryId) {
 //        if(jwtFilter.isAdmin()){
 
-            ProductCategory productCategory = Mapper.convertObject(request,ProductCategory.class);
-            productCategory=productCategoryRepository.save(productCategory);
+            Optional<ProductCategory> productCategoryOptional = productCategoryRepository.findByUuid(productCategoryId);
+
+            if(productCategoryOptional.isEmpty())
+                throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+            ProductCategory productCategory = productCategoryOptional.get();
+
+            return new ApiResponse<ProductCategoryResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                    Mapper.convertObject(productCategory,ProductCategoryResponse.class));
+        }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
+
+
+    @Override
+    /**
+     * @validating productCategoryOptional by uuid
+     * @Validate if the List of productCategoryOptional is empty otherwise return record not found
+     * Create the productCategory definition and update
+     * @return a Success Message
+     * * */
+    public ApiResponse<String> updateProductCategory(UUID productCategoryId, @RequestBody ProductCategoryRequest request) {
+//        if(jwtFilter.isAdmin()){
+
+            ProductCategory productCategory = validateProductCategory(productCategoryId);
+
+            productCategory.setName(request.getName());
+
+            productCategoryRepository.save(productCategory);
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    "Record added successfully");
+                    "Record Updated Successfully");
         }
 //        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
 //                "You are not Authorized");
 //    }
 
     @Override
-    public ApiResponse<ProductCategoryResponse> getProductCategoryById(@RequestParam("id") UUID productCategoryId) {
-        if(jwtFilter.isAdmin()){
-
-            Optional<ProductCategory> productCategory = productCategoryRepository.findByUuid(productCategoryId);
-            if(productCategory.isEmpty())
-                throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-            ProductCategory prCategory = productCategory.get();
-            return new ApiResponse<ProductCategoryResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertObject(prCategory,ProductCategoryResponse.class));
-        }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
-
-    private ProductCategory validateProductCategory(UUID uuid){
-        Optional<ProductCategory> productCategory = productCategoryRepository.findByUuid(uuid);
-        if(productCategory.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        return productCategory.get();
-    }
-
-    @Override
-    public ApiResponse<String> updateProductCategory(UUID productCategoryId, @RequestBody ProductCategoryRequest request) {
-        if(jwtFilter.isAdmin()){
-
-            ProductCategory productCategory = validateProductCategory(productCategoryId);
-            productCategory.setName(request.getName());
-
-            productCategory = productCategoryRepository.save(productCategory);
-            return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    "Record Updated Successfully");
-        }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
-
-    @Override
+    /**
+     * @validate ProductCategory by uuid
+     * @Validate if ProductCategory is empty otherwise return record not found
+     * @Delete ProductCategory
+     * @return a Success Message
+     * * */
     public ApiResponse<String> deleteProductCategory(UUID productCategoryId) {
 //        if(jwtFilter.isAdmin()){
 

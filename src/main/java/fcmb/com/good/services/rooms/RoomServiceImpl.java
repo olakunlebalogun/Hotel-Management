@@ -38,7 +38,7 @@ public class RoomServiceImpl implements RoomService {
 
 
     /**
-     * @Finding the list of rooms*
+     * @Finding the list of rooms
      * @Validate the List of rooms is empty otherwise return record not found*
      * @return the list of rooms and a Success Message* *
      * * */
@@ -91,7 +91,6 @@ public class RoomServiceImpl implements RoomService {
         rooms.setCurrentCustomer(request.getCurrentCustomer());
         rooms.setStatus(request.getStatus());
         rooms.setCreatedBy(String.valueOf(existingUser));
-
         rooms.setRoomCategory(existingRoomCategory);
         roomsRepository.save(rooms);
 

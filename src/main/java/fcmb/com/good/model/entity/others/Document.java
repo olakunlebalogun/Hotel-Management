@@ -24,6 +24,7 @@ public class Document extends BaseEntity {
     private String filePath;
 
 
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private Rooms rooms;

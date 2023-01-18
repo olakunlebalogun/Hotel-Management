@@ -26,6 +26,11 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
     private  final RoomCategoryRepository roomCategoryRepository;
 
     @Override
+    /**
+     * @Validate and Find the list of  roomCategory
+     * @Validate if the List of roomCategory is empty otherwise return record not found*
+     * @return the list of roomCategory and a Success Message* *
+     * * */
     public ApiResponse<List<RoomTypeResponse>> getListOfRoomType(int page, int size) {
         List<RoomCategory> roomTypeList = roomCategoryRepository.findAll(PageRequest.of(page,size)).toList();
         if(roomTypeList.isEmpty())
@@ -36,12 +41,19 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
     }
 
     @Override
+    /**
+     * @Validate that no duplicate roomCategory is allowed
+     * @Validate that room category exists otherwise return record not found
+     * Create the room definition and save
+     * @return success message
+     * * */
     public ApiResponse<String> addRoomType(@RequestBody RoomTypeRequest request) {
 
-        Optional<RoomCategory> roomType = validateDuplicateRoomType(request.getCategory());
-        if (!roomType.isEmpty()) {
+        Optional<RoomCategory> roomCategoryOptional = validateDuplicateRoomType(request.getCategory());
+
+        if (!roomCategoryOptional.isEmpty()) {
             return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
-                    "This Room Category Already Exist");
+                    "Duplicate Record");
         }
         roomCategoryRepository.save(getRoomTypeFromRequest(request));
 
@@ -49,6 +61,9 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
                 "Record Added successfully");
     }
 
+    /**
+     * Set and get the roomCategory parameters
+     */
     private RoomCategory getRoomTypeFromRequest(RoomTypeRequest request) {
         RoomCategory roomType = new RoomCategory();
         roomType.setCategory(request.getCategory());
@@ -59,46 +74,77 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
         return roomType;
     }
 
+    /**
+     * @Validating existingRoomCategoryOption by category
+     * @Validate if the List of existingRoomCategoryOption is empty otherwise return Duplicate Record
+     * */
     private Optional<RoomCategory> validateDuplicateRoomType(String category) {
-        Optional<RoomCategory> existingRoomType = roomCategoryRepository.findByRoomType(category);
-        System.out.println(existingRoomType);
-        return existingRoomType;
+        Optional<RoomCategory> existingRoomCategoryOption = roomCategoryRepository.findByRoomType(category);
+        System.out.println(existingRoomCategoryOption);
+        return existingRoomCategoryOption;
     }
 
 
     @Override
+    /**
+     * @Validating and Finding the list of roomCategoryOptional by uuid
+     * @Validate if the List of roomCategoryOptional is empty otherwise return record not found
+     * Create the roomCategory definition and get the roomCategoryOptional by uuid
+     * @return the list of roomCategory and a Success Message
+     * * */
     public ApiResponse<RoomTypeResponse> getRoomTypeById(@RequestParam("id") UUID roomTypeId) {
-        Optional<RoomCategory> roomType = roomCategoryRepository.findByUuid(roomTypeId);
+        Optional<RoomCategory> roomCategoryOptional = roomCategoryRepository.findByUuid(roomTypeId);
 
-        if(roomType.isEmpty())
+        if(roomCategoryOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        RoomCategory rt = roomType.get();
-        return new ApiResponse<RoomTypeResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(rt,RoomTypeResponse.class));
+
+        RoomCategory roomCategory = roomCategoryOptional.get();
+        return new ApiResponse<RoomTypeResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(roomCategory,RoomTypeResponse.class));
 
     }
 
+    /**
+     * @validating roomCategoryOptional by uuid
+     * @Validate if the List of roomCategory is empty otherwise return record not found
+     * @return roomCategoryOptional
+     * * */
     private RoomCategory validateRoomType(UUID uuid){
-        Optional<RoomCategory> roomType = roomCategoryRepository.findByUuid(uuid);
-        if(roomType.isEmpty())
+        Optional<RoomCategory> roomCategoryOptional = roomCategoryRepository.findByUuid(uuid);
+        if(roomCategoryOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        return roomType.get();
+        return roomCategoryOptional.get();
     }
 
     @Override
+    /**
+     * @validating roomCategoryOptional by uuid
+     * @Validate if the List of roomCategoryOptional is empty otherwise return record not found
+     * Create the roomCategory definition and update
+     * @return a Success Message
+     * * */
     public ApiResponse<String> updateRoomType(UUID roomTypeId, @RequestBody RoomTypeRequest request) {
-        RoomCategory roomType = validateRoomType(roomTypeId);
-        roomType.setCategory(request.getCategory());
-        roomType.setDescription(request.getDescription());
-        roomType.setCost(request.getCost());
-        roomType.setStatus(request.getStatus());
 
-        roomCategoryRepository.save(roomType);
+        RoomCategory roomCategory = validateRoomType(roomTypeId);
+
+        roomCategory.setCategory(request.getCategory());
+        roomCategory.setDescription(request.getDescription());
+        roomCategory.setCost(request.getCost());
+        roomCategory.setStatus(request.getStatus());
+
+        roomCategoryRepository.save(roomCategory);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }
 
 
     @Override
+    /**
+     * @validate roomCategory by uuid
+     * @Validate if roomCategory is empty otherwise return record not found
+     * @Delete roomCategory
+     * @return a Success Message
+     * * */
     public ApiResponse<String> deleteRoomType(UUID roomTypeId) {
         RoomCategory roomType = validateRoomType(roomTypeId);
         roomCategoryRepository.delete(roomType);

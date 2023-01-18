@@ -59,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     /**
-     * @Search the list of all products by name*
+     * @Search the list of all products by name
      * @Validate if the List of products is empty otherwise return record not found*
      * @return the list of products by name* *
      * * */

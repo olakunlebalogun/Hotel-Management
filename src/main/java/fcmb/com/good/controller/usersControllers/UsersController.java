@@ -3,7 +3,6 @@ package fcmb.com.good.controller.usersControllers;
 import fcmb.com.good.model.dto.request.userRequest.*;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.userResponse.*;
-import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.services.others.UploadService;
 import fcmb.com.good.services.user.*;
 import io.swagger.annotations.ApiOperation;
@@ -121,7 +120,7 @@ public class UsersController  {
     @PostMapping(ADD_IMAGE)
     @ApiOperation(value = "Upload profile picture of User", response = String.class,
             produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Document uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
+    public ApiResponse uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
         return uploadService.uploadFile(file);
     }
 

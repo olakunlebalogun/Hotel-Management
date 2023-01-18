@@ -27,6 +27,10 @@ public class DocumentRequest  {
        @NotEmpty(message = INVALID_NAME)
        private String description;
 
+       @NotNull(message = INVALID_NAME)
+       @NotEmpty(message = INVALID_NAME)
+       private String filePath;
+
 //       @NotNull(message = INVALID_NAME)
 //       @NotEmpty(message = INVALID_NAME)
 //       private Long record_id;

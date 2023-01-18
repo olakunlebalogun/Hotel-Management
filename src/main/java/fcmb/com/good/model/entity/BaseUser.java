@@ -24,4 +24,5 @@ public class BaseUser extends BaseEntity {
     private String role;
     private String createdBy;
 
+
 }
