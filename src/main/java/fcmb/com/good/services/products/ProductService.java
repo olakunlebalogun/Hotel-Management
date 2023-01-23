@@ -12,9 +12,9 @@ public interface ProductService {
 
     ApiResponse<List<ProductResponse>> getListOfProduct(int page, int size);
 
-    List<Product> searchProductsByCategory(String category);
-
     ApiResponse<String> addProducts(ProductRequest request);
+
+    List<Product> searchProductsByProductCategory(String productCategory);
 
     ApiResponse<ProductResponse> getProductById(UUID productId);
 

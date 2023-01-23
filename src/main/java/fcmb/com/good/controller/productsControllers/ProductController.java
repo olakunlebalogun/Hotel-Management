@@ -151,7 +151,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> searchProductsByCategory(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                                    @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
                                                                    @RequestParam String category ) {
-        return ResponseEntity.ok(productService.searchProductsByCategory(category));
+        return ResponseEntity.ok(productService.searchProductsByProductCategory(category));
     }
 
                                             //FIND_PRODUCTS_BY_NAME

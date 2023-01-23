@@ -26,8 +26,6 @@ public class BaseEntity {
     @UpdateTimestamp
     private LocalDateTime lastModified;
 
-    private String postedBy;
-
 
     @Column(name = "uuid", updatable = false, nullable = false, columnDefinition = "VARCHAR(36)")
     @Type(type = "uuid-char")

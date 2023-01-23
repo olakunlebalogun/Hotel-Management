@@ -117,12 +117,12 @@ public class UsersController  {
         return userTypeService.addUserType(request);
     }
 
-    @PostMapping(ADD_IMAGE)
-    @ApiOperation(value = "Upload profile picture of User", response = String.class,
-            produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
-        return uploadService.uploadFile(file);
-    }
+//    @PostMapping(ADD_IMAGE)
+//    @ApiOperation(value = "Upload profile picture of User", response = String.class,
+//            produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ApiResponse uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
+//        return uploadService.uploadFile(file);
+//    }
 
 
                                          //FIND_USERS_BY_ID

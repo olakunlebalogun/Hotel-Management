@@ -22,20 +22,18 @@ public class Product extends BaseEntity {
     private Integer quantity;
     private Double price;
     private Double purchasedPrice;
-    private String category;
     private String code;
     private String location;
     private String status;
-//    private String createdBy;
-
-
+    private Double profit;
+    private String productsCategory;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "users", insertable = false, updatable = false)
+    @JoinColumn(name = "createdBy_id", updatable = true)
     private AppUser createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_category_id", insertable = false, updatable = false)
+    @JoinColumn(name = "product_category_id", updatable = true)
     private ProductCategory productCategory;
 
     public Product(){}

@@ -66,8 +66,8 @@ public class DocumentServiceImpl implements DocumentService {
         Document document = validateDocument(documentId);
         document.setType(request.getType());
         document.setName(request.getName());
-        document.setSize(request.getSize());
-        document.setDescription(request.getDescription());
+//        document.setSize(request.getSize());
+//        document.setDescription(request.getDescription());
 
         document = documentRepository.save(document);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

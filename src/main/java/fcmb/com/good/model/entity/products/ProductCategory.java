@@ -4,12 +4,13 @@ package fcmb.com.good.model.entity.products;
 import fcmb.com.good.model.entity.BaseEntity;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Data
+@Data
 @AllArgsConstructor
 @EntityListeners(BaseListener.class)
 @Entity
@@ -27,20 +28,4 @@ public class ProductCategory extends BaseEntity {
 
     public ProductCategory(){}
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Product> getProd() {
-        return prod;
-    }
-
-    public void setProd(Set<Product> prod) {
-        this.prod = prod;
-    }
 }

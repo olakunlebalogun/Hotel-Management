@@ -78,13 +78,14 @@ public class ProductServiceImpl implements ProductService {
      * @Validate if the List of productCategory is empty otherwise return record not found*
      * @return the list of products by categoryName* *
      * * */
-    public List<Product> searchProductsByCategory(String category) {
-        List<Product> searchProductsByCategory = productRepository.searchProductsByCategory(category);
+    public List<Product> searchProductsByProductCategory(String productCategory) {
+        List<Product> searchProductsByProductCategory = productRepository.searchProductsByProductCategory(productCategory);
 
-        if(searchProductsByCategory.isEmpty())
+        if(searchProductsByProductCategory.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        return searchProductsByCategory;
+        return searchProductsByProductCategory;
+
     }
 
 
@@ -152,12 +153,15 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(request.getDescription());
         product.setQuantity(request.getQuantity());
         product.setPrice(request.getPrice());
-        product.setCategory(existingProductCategory.getUuid().toString());
         product.setCode(request.getCode());
         product.setLocation(request.getLocation());
         product.setProductCategory(existingProductCategory);
         product.setStatus(request.getStatus());
         product.setCreatedBy(existingUser);
+        product.setPurchasedPrice(request.getPurchasedPrice());
+        product.setProfit(product.getPurchasedPrice()-request.getPrice());
+        product.setProductsCategory(request.getProductsCategory());
+
         productRepository.save(product);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record created successfully");
@@ -173,6 +177,7 @@ public class ProductServiceImpl implements ProductService {
      * * */
     public ApiResponse<String> updateProduct(UUID productId, ProductRequest request) {
 //        if(jwtFilter.isAdmin()){
+
         ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategory())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
@@ -181,12 +186,14 @@ public class ProductServiceImpl implements ProductService {
             product.setDescription(request.getDescription());
             product.setQuantity(product.getQuantity()+request.getQuantity());
             product.setPrice(request.getPrice());
-            product.setCategory(String.valueOf(request.getCategory()));
-            product.setCategory(existingProductCategory.getUuid().toString());
             product.setCode(request.getCode());
             product.setLocation(request.getLocation());
             product.setPurchasedPrice(request.getPurchasedPrice());
             product.setStatus(request.getStatus());
+            product.setProductCategory(existingProductCategory);
+            product.setStatus(request.getStatus());
+            product.setPurchasedPrice(request.getPurchasedPrice());
+            product.setProductsCategory(request.getProductsCategory());
 
             product = productRepository.save(product);
             return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -211,8 +218,6 @@ public class ProductServiceImpl implements ProductService {
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Deleted successfully");
         }
-
-
 //        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
 //                "You are not Authorized");
 //    }
