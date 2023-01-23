@@ -15,6 +15,7 @@ import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.rooms.RoomCategoryRepository;
 import fcmb.com.good.repo.rooms.RoomsRepository;
+import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class RoomServiceImpl implements RoomService {
     private  final RoomsRepository roomsRepository;
     private  final RoomCategoryRepository roomCategoryRepository;
     private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
 
 
     /**
@@ -56,9 +58,11 @@ public class RoomServiceImpl implements RoomService {
      * @Validating existingRoomsOptional by roomNumber*
      * @Validate the List of existingRoomsOptional is empty otherwise return Duplicate Record*
      * * */
-    private void validateDuplicationRooms(Integer roomNumber){
+    private void validateDuplicationRooms(Integer roomNumber, UUID uuid){
         Optional<Rooms> existingRoomsOptional = roomsRepository.findByRoomNumber(roomNumber);
-        if(existingRoomsOptional.isPresent())
+        Optional<RoomCategory> existingRoomCategoryOptional = roomCategoryRepository.findByUuid(uuid);
+
+        if(existingRoomsOptional.isPresent() && existingRoomCategoryOptional.isPresent() )
             throw new RecordNotFoundException("Duplicate record");
     }
 
@@ -73,24 +77,23 @@ public class RoomServiceImpl implements RoomService {
      * * */
     public ApiResponse<String> addRoom(@RequestBody RoomRequest request) {
 
-        validateDuplicationRooms(request.getRoomNumber());
+        validateDuplicationRooms(request.getRoomNumber(),request.getUuid());
 
-        RoomCategory existingRoomCategory = roomCategoryRepository.findByUuid(request.getCategory())
+        RoomCategory existingRoomCategory = roomCategoryRepository.findByUuid(request.getRoomCategory())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        AppUser existingUser  = userRepository.findByUuid(UUID.fromString(request.getCreatedBy()))
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Rooms rooms = new Rooms();
         rooms.setDescription(request.getDescription());
         rooms.setRoomNumber(request.getRoomNumber());
         rooms.setPrice(request.getPrice());
-        rooms.setCategory(existingRoomCategory.getUuid().toString());
+        rooms.setCategory(request.getCategory());
         rooms.setStatus(request.getStatus());
         rooms.setState(request.getState());
-        rooms.setCurrentCustomer(request.getCurrentCustomer());
         rooms.setStatus(request.getStatus());
-        rooms.setCreatedBy(String.valueOf(existingUser));
+        rooms.setCreatedBy(existingUser);
         rooms.setRoomCategory(existingRoomCategory);
         roomsRepository.save(rooms);
 
@@ -136,7 +139,7 @@ public class RoomServiceImpl implements RoomService {
      * * */
     public ApiResponse<String> updateRoom(UUID roomId, @RequestBody RoomRequest request) {
 
-        RoomCategory existingRoomCategory = roomCategoryRepository.findByUuid(request.getCategory())
+        RoomCategory existingRoomCategory = roomCategoryRepository.findByUuid(request.getRoomCategory())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Rooms rooms = validateRooms(roomId);

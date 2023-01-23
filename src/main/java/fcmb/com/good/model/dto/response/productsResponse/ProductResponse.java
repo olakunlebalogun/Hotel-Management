@@ -17,7 +17,5 @@ public class ProductResponse extends BaseDto {
      private String code;
      private String location;
 
-//     private ProductCategory productCategory;
-
 
 }

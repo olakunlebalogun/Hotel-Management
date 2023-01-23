@@ -7,7 +7,9 @@ import fcmb.com.good.model.dto.request.roomsRequest.RoomTypeRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomTypeResponse;
 import fcmb.com.good.model.entity.rooms.RoomCategory;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.rooms.RoomCategoryRepository;
+import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RoomCategoryServiceImpl implements RoomCategoryService {
     private  final RoomCategoryRepository roomCategoryRepository;
+    private final UserRepository userRepository;
 
     @Override
     /**
@@ -65,11 +68,15 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
      * Set and get the roomCategory parameters
      */
     private RoomCategory getRoomTypeFromRequest(RoomTypeRequest request) {
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
         RoomCategory roomType = new RoomCategory();
         roomType.setCategory(request.getCategory());
         roomType.setDescription(request.getDescription());
         roomType.setCost(request.getCost());
         roomType.setStatus(request.getStatus());
+        roomType.setCreatedBy(existingUser);
 
         return roomType;
     }
@@ -79,9 +86,9 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
      * @Validate if the List of existingRoomCategoryOption is empty otherwise return Duplicate Record
      * */
     private Optional<RoomCategory> validateDuplicateRoomType(String category) {
-        Optional<RoomCategory> existingRoomCategoryOption = roomCategoryRepository.findByRoomType(category);
-        System.out.println(existingRoomCategoryOption);
-        return existingRoomCategoryOption;
+        Optional<RoomCategory> existingRoomCategoryOptional = roomCategoryRepository.findByRoomType(category);
+        System.out.println(existingRoomCategoryOptional);
+        return existingRoomCategoryOptional;
     }
 
 

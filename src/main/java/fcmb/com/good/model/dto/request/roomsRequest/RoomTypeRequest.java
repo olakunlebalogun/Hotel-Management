@@ -9,6 +9,8 @@ import lombok.ToString;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 
 @Data
@@ -20,6 +22,10 @@ public class RoomTypeRequest  {
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
        private String category;
+
+       @NotNull(message = INVALID_NAME)
+//       @NotEmpty(message = INVALID_NAME)
+       private UUID createdBy;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)

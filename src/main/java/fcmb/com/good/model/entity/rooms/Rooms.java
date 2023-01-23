@@ -3,6 +3,7 @@ package fcmb.com.good.model.entity.rooms;
 
 import fcmb.com.good.model.entity.BaseEntity;
 import fcmb.com.good.model.entity.others.Document;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
@@ -25,12 +26,11 @@ public class Rooms extends BaseEntity {
     private String status;
     private boolean isAvailable;
     private String state;
-    private String currentCustomer;
-    private String createdBy;
+    private String photo;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
-    private Customer customer;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdBy_id", updatable = true)
+    private AppUser createdBy;
 
     @OneToMany(mappedBy = "rooms")
     private List<Document> documentList;

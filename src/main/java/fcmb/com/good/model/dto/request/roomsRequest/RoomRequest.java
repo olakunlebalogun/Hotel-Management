@@ -15,16 +15,19 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 public class RoomRequest  {
 
       @NotNull(message = INVALID_NAME)
-      @NotEmpty(message = INVALID_NAME)
-      private UUID category;
+      private UUID roomCategory;
 
       @NotNull(message = INVALID_NAME)
-      @NotEmpty(message = INVALID_NAME)
+//      @NotEmpty(message = INVALID_NAME)
       private Integer roomNumber;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
       private String description;
+
+      @NotNull(message = INVALID_NAME)
+      @NotEmpty(message = INVALID_NAME)
+      private String category;
 
       @NotNull(message = INVALID_NAME)
       @Min(value=50, message = INVALID_NAME)
@@ -42,12 +45,13 @@ public class RoomRequest  {
       @NotEmpty(message = INVALID_NAME)
       private String state;
 
-      @NotNull(message = INVALID_NAME)
-      @NotEmpty(message = INVALID_NAME)
-      private String currentCustomer;
+//      @NotNull(message = INVALID_NAME)
+//      @NotEmpty(message = INVALID_NAME)
+      private String photo;
 
       @NotNull(message = INVALID_NAME)
-      @NotEmpty(message = INVALID_NAME)
-      private String createdBy;
+      private UUID createdBy;
+
+      private UUID uuid;
 
 }
