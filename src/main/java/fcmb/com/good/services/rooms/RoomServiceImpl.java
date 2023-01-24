@@ -55,14 +55,15 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * @Validating existingRoomsOptional by roomNumber*
-     * @Validate the List of existingRoomsOptional is empty otherwise return Duplicate Record*
+     * @Validating existingRoomsOptional by roomNumber
+     * @Validating existingRoomCategoryOptional by roomNumber
+     * @Validate the List of existingRoomsOptional and existingRoomCategoryOptional is present otherwise return Duplicate Record*
      * * */
     private void validateDuplicationRooms(Integer roomNumber, UUID uuid){
         Optional<Rooms> existingRoomsOptional = roomsRepository.findByRoomNumber(roomNumber);
         Optional<RoomCategory> existingRoomCategoryOptional = roomCategoryRepository.findByUuid(uuid);
 
-        if(existingRoomsOptional.isPresent() && existingRoomCategoryOptional.isPresent() )
+        if(existingRoomsOptional.isPresent() )
             throw new RecordNotFoundException("Duplicate record");
     }
 
@@ -91,9 +92,8 @@ public class RoomServiceImpl implements RoomService {
         rooms.setPrice(request.getPrice());
         rooms.setCategory(request.getCategory());
         rooms.setStatus(request.getStatus());
-        rooms.setState(request.getState());
-        rooms.setStatus(request.getStatus());
         rooms.setCreatedBy(existingUser);
+        rooms.setPhoto(request.getPhoto());
         rooms.setRoomCategory(existingRoomCategory);
         roomsRepository.save(rooms);
 
@@ -143,17 +143,17 @@ public class RoomServiceImpl implements RoomService {
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Rooms rooms = validateRooms(roomId);
-        rooms.setRoomNumber(request.getRoomNumber());
         rooms.setDescription(request.getDescription());
+        rooms.setRoomNumber(request.getRoomNumber());
         rooms.setPrice(request.getPrice());
-        rooms.setCategory(String.valueOf(request.getCategory()));
-        rooms.setCategory(existingRoomCategory.getUuid().toString());
-        rooms.setState(request.getState());
+        rooms.setCategory(request.getCategory());
         rooms.setStatus(request.getStatus());
+        rooms.setPhoto(request.getPhoto());
+        rooms.setRoomCategory(existingRoomCategory);
 
         rooms = roomsRepository.save(rooms);
         return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                "Record updated successfully");
+                "Record Updated successfully");
     }
 
     @Override

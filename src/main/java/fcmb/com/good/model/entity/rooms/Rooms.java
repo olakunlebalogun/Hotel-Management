@@ -24,8 +24,7 @@ public class Rooms extends BaseEntity {
     private String description;
     private Double price;
     private String status;
-    private boolean isAvailable;
-    private String state;
+    //private boolean isAvailable;
     private String photo;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -36,7 +35,7 @@ public class Rooms extends BaseEntity {
     private List<Document> documentList;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_type_id")
+    @JoinColumn(name = "room_type_id", updatable = true)
     private RoomCategory roomCategory;
 
 

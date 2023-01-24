@@ -37,13 +37,9 @@ public class RoomRequest  {
       @NotEmpty(message = INVALID_NAME)
       private String status;
 
-      @NotNull(message = INVALID_NAME)
-      @NotEmpty(message = INVALID_NAME)
-      private String availableRooms;
-
-      @NotNull(message = INVALID_NAME)
-      @NotEmpty(message = INVALID_NAME)
-      private String state;
+//      @NotNull(message = INVALID_NAME)
+//      @NotEmpty(message = INVALID_NAME)
+//      private String availableRooms;
 
 //      @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
