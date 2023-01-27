@@ -9,6 +9,8 @@ import lombok.ToString;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static fcmb.com.good.utills.MessageUtil.*;
 
 
@@ -65,5 +67,9 @@ public class CustomerRequest {
      @NotNull(message = INVALID_USERNAME)
      @NotEmpty(message = INVALID_USERNAME)
      private String role;
+
+     @NotNull(message = INVALID_PASSWORD)
+//     @NotEmpty(message = INVALID_PASSWORD)
+     private UUID createdById;
 
 }

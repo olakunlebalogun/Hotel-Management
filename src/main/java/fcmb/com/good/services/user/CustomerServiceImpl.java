@@ -12,6 +12,7 @@ import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.user.CustomerRepository;
+import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.EmailUtils;
 import fcmb.com.good.utills.MessageUtil;
 import fcmb.com.good.utills.Utils;
@@ -33,6 +34,7 @@ import java.util.*;
 public class CustomerServiceImpl implements CustomerService  {
 
     private  final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final EmailUtils emailUtils;
     private final JwtFilter jwtFilter;
 
@@ -132,8 +134,8 @@ public class CustomerServiceImpl implements CustomerService  {
      */
     private Customer getCustomerFromRequest(CustomerRequest request) throws IOException {
 
-//        String originalName = file.getOriginalFilename().replaceAll("[\\\\/><\\|\\s\"'{}()\\[\\]]+", "_");
-//        String filePath = getStoreLocationPath() + File.separator + Utils.getNewFileName(getStoreLocationPath(), originalName);
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Customer customer = new Customer();
         customer.setName(request.getName());
@@ -148,13 +150,7 @@ public class CustomerServiceImpl implements CustomerService  {
         customer.setPhoto(request.getPhoto());
         customer.setRole(request.getRole());
         customer.setNin(request.getNin());
-
-//        customer.setName(file.getOriginalFilename());
-//        customer.setType(file.getContentType());
-//        customer.setSize(String.valueOf(file.getSize()));
-//        customer.setDescription(file.getName());
-//        customer.setFilePath(filePath);
-//        file.transferTo(new File(filePath));
+        customer.setCreatedBy(existingUser);
 
         return customer;
     }

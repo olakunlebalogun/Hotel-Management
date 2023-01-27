@@ -1,4 +1,4 @@
-package fcmb.com.good.services.service;
+package fcmb.com.good.services.serviceRender;
 
 import fcmb.com.good.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
@@ -6,9 +6,7 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.servicesRequest.ServiceRequestRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.ServiceRequestResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.entity.services.ServiceRequest;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.services.ServiceRequestRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;

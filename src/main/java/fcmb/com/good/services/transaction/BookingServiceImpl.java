@@ -6,10 +6,14 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.BookingRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.BookingResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
+import fcmb.com.good.model.entity.rooms.RoomCategory;
+import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.transaction.Booking;
 import fcmb.com.good.model.entity.user.Customer;
+import fcmb.com.good.repo.rooms.RoomCategoryRepository;
+import fcmb.com.good.repo.rooms.RoomsRepository;
 import fcmb.com.good.repo.transaction.BookingRepository;
+import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,8 +30,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
     private  final BookingRepository bookingRepository;
+    private final CustomerRepository customerRepository;
+    private final RoomsRepository roomsRepository;
+    private final RoomCategoryRepository roomCategoryRepository;
 
     @Override
+    /**
+     * @Validate and Find the list of all bookings
+     * @Validate if the List of bookings is empty otherwise return record not found
+     * @return the list of bookings and a Success Message
+     * * */
     public ApiResponse<List<BookingResponse>> getListOfBooking(int page, int size) {
         List<Booking> bookingList = bookingRepository.findAll(PageRequest.of(page,size)).toList();
         if(bookingList.isEmpty())
@@ -39,38 +50,83 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ApiResponse<String> addBooking(@RequestBody BookingRequest request) {
-        Booking booking = Mapper.convertObject(request,Booking.class);
-        booking=bookingRepository.save(booking);
+    /**
+     * @Validate that customer exists otherwise return record not found
+     * @Validate that room exists otherwise return record not found
+     * @Validate that roomCategory exists otherwise return record not found
+     * Create the booking definition and save
+     * @return success message
+     * * */
+    public ApiResponse<String> addBooking(BookingRequest request) {
+
+        Customer existingCustomer  = customerRepository.findByUuid(request.getCustomer_id())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        Rooms existingRoom  = roomsRepository.findByUuid(request.getRoom_id())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        RoomCategory existingRoomCategory = roomCategoryRepository.findByUuid(request.getRoomCategoryId())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        Booking booking = new Booking();
+        booking.setCustomer(existingCustomer);
+        booking.setRooms(existingRoom);
+        booking.setRoomCategory(existingRoomCategory);
+        booking.setPrice(request.getPrice());
+        booking.setNight(request.getNight());
+        booking.setAmount(booking.getPrice()*booking.getNight());
+        booking.setCheck_in_date(request.getCheck_in_date());
+        booking.setCheck_out_date(booking.getCheck_in_date());
+
+        bookingRepository.save(booking);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
 
+
     @Override
+    /**
+     * @Validating and Finding the list of bookingOptional by uuid
+     * @Validate if the List of bookingOptional is empty otherwise return record not found
+     * Create the booking definition and get the bookingOptional by uuid
+     * @return the list of bookings and a Success Message
+     * * */
     public ApiResponse<BookingResponse> getBookingById(@RequestParam("id") UUID bookingId) {
-        Optional<Booking> booking = bookingRepository.findByUuid(bookingId);
+        Optional<Booking> bookingOptional = bookingRepository.findByUuid(bookingId);
 
-        if(booking.isEmpty())
+        if(bookingOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        Booking book = booking.get();
-        return new ApiResponse<BookingResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(book,BookingResponse.class));
+
+        Booking book = bookingOptional.get();
+        return new ApiResponse<BookingResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(book,BookingResponse.class));
 
     }
 
+    /**
+     * @Validating bookingOptional by name
+     * @Validate if the List of bookingOptional is empty otherwise return Duplicate Record
+     * */
     private Booking validateBooking(UUID uuid){
-        Optional<Booking> booking = bookingRepository.findByUuid(uuid);
-        if(booking.isEmpty())
+        Optional<Booking> bookingOptional = bookingRepository.findByUuid(uuid);
+        if(bookingOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        return booking.get();
+        return bookingOptional.get();
     }
+
 
     @Override
-        public ApiResponse<String> updateBooking(UUID bookingId, @RequestBody BookingRequest request) {
+    /**
+     * @validating bookingOption by uuid
+     * @Validate if the List of bookingOption is empty otherwise return record not found
+     * Create the booking definition and update
+     * @return a Success Message
+     * * */
+        public ApiResponse<String> updateBooking(UUID bookingId,BookingRequest request) {
+
         Booking booking = validateBooking(bookingId);
-        booking.setCustomer_id(request.getCustomer_id());
-        booking.setRoom_id(request.getRoom_id());
+
         booking.setPrice(request.getPrice());
-        booking.setQuantity(request.getQuantity());
         booking.setCheck_in_date(request.getCheck_in_date());
         booking.setCheck_out_date(request.getCheck_out_date());
         booking.setNight(request.getNight());
@@ -80,7 +136,14 @@ public class BookingServiceImpl implements BookingService {
                 "Record Updated Successfully");
     }
 
+
     @Override
+    /**
+     * @validate booking by uuid
+     * @Validate if booking is empty otherwise return record not found
+     * @Delete booking
+     * @return a Success Message
+     * * */
     public ApiResponse<String> deleteBooking(UUID bookingId) {
         Booking booking = validateBooking(bookingId);
         bookingRepository.delete(booking);

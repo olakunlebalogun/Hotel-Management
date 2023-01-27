@@ -14,6 +14,7 @@ import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.entity.user.Employee;
 import fcmb.com.good.repo.user.EmployeeRepository;
+import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.EmailUtils;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ import java.util.UUID;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private  final EmployeeRepository employeeRepository;
+    private final UserRepository userRepository;
     private final EmailUtils emailUtils;
     private final JwtFilter jwtFilter;
 
@@ -44,7 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return the list of Employee and a Success Message
      * * */
     public ApiResponse<List<EmployeeResponse>> getListOfEmployee(int page, int size) {
-        if(jwtFilter.isAdmin()){
+//        if(jwtFilter.isAdmin()){
             List<Employee> employeeList = employeeRepository.findAll(PageRequest.of(page,size)).toList();
             if(employeeList.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
@@ -52,9 +54,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     Mapper.convertList(employeeList, EmployeeResponse.class));
         }
-        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
+//        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
 
     @Override
@@ -128,20 +130,26 @@ public class EmployeeServiceImpl implements EmployeeService {
      * Set and get the employee parameters
      */
     private Employee getEmployeeFromRequest(EmployeeRequest request){
-        Employee emp = new Employee();
-        emp.setName(request.getName());
-        emp.setEmail(request.getEmail());
-        emp.setAddress(request.getAddress());
-        emp.setCountry(request.getCountry());
-        emp.setCity(request.getCity());
-        emp.setGender(request.getGender());
-        emp.setPassword(request.getPassword());
-        emp.setPhone(request.getPhone());
-        emp.setUsername(request.getUsername());
-        emp.setPhoto(request.getPhoto());
-        emp.setRole(request.getRole());
-        emp.setDesignation(request.getDesignation());
-        return emp;
+
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        Employee employee = new Employee();
+        employee.setName(request.getName());
+        employee.setEmail(request.getEmail());
+        employee.setAddress(request.getAddress());
+        employee.setCountry(request.getCountry());
+        employee.setCity(request.getCity());
+        employee.setGender(request.getGender());
+        employee.setPassword(request.getPassword());
+        employee.setPhone(request.getPhone());
+        employee.setUsername(request.getUsername());
+        employee.setPhoto(request.getPhoto());
+        employee.setRole(request.getRole());
+        employee.setDesignation(request.getDesignation());
+        employee.setCreatedBy(existingUser);
+
+        return employee;
     }
 
 

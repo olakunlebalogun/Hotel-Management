@@ -54,22 +54,13 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
 
         Optional<RoomCategory> roomCategoryOptional = validateDuplicateRoomType(request.getCategory());
 
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
         if (!roomCategoryOptional.isEmpty()) {
             return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
                     "Duplicate Record");
         }
-        roomCategoryRepository.save(getRoomTypeFromRequest(request));
-
-        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                "Record Added successfully");
-    }
-
-    /**
-     * Set and get the roomCategory parameters
-     */
-    private RoomCategory getRoomTypeFromRequest(RoomTypeRequest request) {
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         RoomCategory roomType = new RoomCategory();
         roomType.setCategory(request.getCategory());
@@ -78,8 +69,29 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
         roomType.setStatus(request.getStatus());
         roomType.setCreatedBy(existingUser);
 
-        return roomType;
+        roomCategoryRepository.save(roomType);
+        //roomCategoryRepository.save(getRoomTypeFromRequest(request));
+
+        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Added successfully");
     }
+
+//    /**
+//     * Set and get the roomCategory parameters
+//     */
+//    private RoomCategory getRoomTypeFromRequest(RoomTypeRequest request) {
+//        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+//                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+//
+//        RoomCategory roomType = new RoomCategory();
+//        roomType.setCategory(request.getCategory());
+//        roomType.setDescription(request.getDescription());
+//        roomType.setCost(request.getCost());
+//        roomType.setStatus(request.getStatus());
+//        roomType.setCreatedBy(existingUser);
+//
+//        return roomType;
+//    }
 
     /**
      * @Validating existingRoomCategoryOption by category

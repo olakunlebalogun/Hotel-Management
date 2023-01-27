@@ -25,7 +25,7 @@ public class RoomTypeRequest  {
 
        @NotNull(message = INVALID_NAME)
 //       @NotEmpty(message = INVALID_NAME)
-       private UUID createdBy;
+       private UUID createdById;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)

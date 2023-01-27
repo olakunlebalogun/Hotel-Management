@@ -27,6 +27,7 @@ public class Product extends BaseEntity {
     private String status;
     private Double profit;
     private String productsCategory;
+    private String photo;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdBy_id", updatable = true)

@@ -23,6 +23,10 @@ public class Employee extends BaseUser {
 
     private String designation;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdById", updatable = true)
+    private AppUser createdBy;
+
     @OneToMany(mappedBy = "employee")
     private List<ExpenseRequest> expenseRequestList;
 

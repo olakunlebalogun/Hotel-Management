@@ -23,9 +23,12 @@ public class Customer extends BaseUser {
 
     private String nin;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdById", updatable = true)
+    private AppUser createdBy;
+
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Booking> roomsList;
-
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Services> servicesList;

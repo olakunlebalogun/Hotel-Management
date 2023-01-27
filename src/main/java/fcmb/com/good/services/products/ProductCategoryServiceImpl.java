@@ -8,7 +8,9 @@ import fcmb.com.good.model.dto.request.productsRequest.ProductCategoryRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductCategoryResponse;
 import fcmb.com.good.model.entity.products.ProductCategory;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.products.ProductCategoryRepository;
+import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.EmailUtils;
 import fcmb.com.good.utills.JwtUtil;
 import fcmb.com.good.utills.MessageUtil;
@@ -28,6 +30,7 @@ import java.util.UUID;
 public class ProductCategoryServiceImpl implements ProductCategoryService{
 
     private  final ProductCategoryRepository productCategoryRepository;
+    private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final JwtFilter jwtFilter;
     private final EmailUtils emailUtils;
@@ -61,15 +64,22 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * Create the product definition and save
      * @return success message* *
      * * */
-    public ApiResponse<String> addProductCategory(@RequestBody ProductCategoryRequest request) {
+    public ApiResponse<String> addProductCategory(ProductCategoryRequest request) {
 
         Optional<ProductCategory> productCategoryOptional = validateDuplicateProductCategory(request.getName());
+
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         if (!productCategoryOptional.isEmpty()) {
             return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
                     "Duplicate Record");
         }
-        productCategoryRepository.save(getProductCategoryFromRequest(request));
+
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setName(request.getName());
+        productCategory.setCreatedBy(existingUser);
+        productCategoryRepository.save(productCategory);
 
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Added successfully");
@@ -140,7 +150,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * Create the productCategory definition and update
      * @return a Success Message
      * * */
-    public ApiResponse<String> updateProductCategory(UUID productCategoryId, @RequestBody ProductCategoryRequest request) {
+    public ApiResponse<String> updateProductCategory(UUID productCategoryId,ProductCategoryRequest request) {
 //        if(jwtFilter.isAdmin()){
 
             ProductCategory productCategory = validateProductCategory(productCategoryId);

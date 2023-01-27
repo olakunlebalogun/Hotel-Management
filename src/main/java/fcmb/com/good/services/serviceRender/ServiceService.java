@@ -1,9 +1,8 @@
-package fcmb.com.good.services.service;
+package fcmb.com.good.services.serviceRender;
 
 import fcmb.com.good.model.dto.request.servicesRequest.ServicesRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.ServiceResponse;
-import fcmb.com.good.model.entity.services.ServiceRequest;
 
 import java.util.List;
 import java.util.UUID;

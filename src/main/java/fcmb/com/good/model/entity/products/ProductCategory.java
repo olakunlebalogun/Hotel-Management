@@ -2,6 +2,7 @@ package fcmb.com.good.model.entity.products;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,10 @@ public class ProductCategory extends BaseEntity {
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinColumn(name = "products_id", insertable = false, updatable = false)
 //    private Products products;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdBy_id", updatable = true)
+    private AppUser createdBy;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "productCategory", cascade = CascadeType.MERGE)
     private Set<Product> prod = new HashSet<>();
