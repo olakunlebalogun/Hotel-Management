@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @SpringBootApplication
 @RequiredArgsConstructor
 
-@PropertySource(value = "file: /home/olakunle/Folders/spring/Collaborations/config_files/application.properties", ignoreResourceNotFound = true  )
+@PropertySource(value = "file:/home/olakunle/Folders/spring/Collaborations/config_files/application.properties", ignoreResourceNotFound = true  )
 public class GoodApplication {
 
 	public static void main(String[] args) {
