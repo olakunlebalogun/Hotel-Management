@@ -1,6 +1,7 @@
 package fcmb.com.good.model.entity.rooms;
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,18 +13,22 @@ import java.util.List;
 @AllArgsConstructor
 @EntityListeners(BaseListener.class)
 @Entity
-@Table(name = "roomType")
-public class RoomType extends BaseEntity {
+@Table(name = "roomCategory")
+public class RoomCategory extends BaseEntity {
 
-    private String room_type;
+    private String category;
     private String description;
     private String cost;
     private String status;
 
-    @OneToMany(mappedBy = "room_type", fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdBy_id", updatable = true)
+    private AppUser createdBy;
+
+    @OneToMany(mappedBy = "roomCategory", fetch = FetchType.LAZY)
     private List<Rooms> roomsList;
 
-    public RoomType(){}
+    public RoomCategory(){}
 
 
 

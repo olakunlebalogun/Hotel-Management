@@ -6,7 +6,7 @@ import fcmb.com.good.model.entity.assets.DamagedAssets;
 import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.others.Hotel;
 import fcmb.com.good.model.entity.products.*;
-import fcmb.com.good.model.entity.rooms.RoomType;
+import fcmb.com.good.model.entity.rooms.RoomCategory;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.services.ServiceRequest;
 import fcmb.com.good.model.entity.services.Services;
@@ -58,12 +58,12 @@ public class BaseListener {
             ProductPurchase productPurchase = (ProductPurchase) data;
             productPurchase.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof Products){
-            Products products = (Products) data;
-            products.setUuid(UUID.randomUUID());
+        else if(data instanceof Product){
+            Product product = (Product) data;
+            product.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof RoomType){
-            RoomType roomType = (RoomType) data;
+        else if(data instanceof RoomCategory){
+            RoomCategory roomType = (RoomCategory) data;
             roomType.setUuid(UUID.randomUUID());
         }
         else if(data instanceof ServiceRequest){
@@ -122,8 +122,8 @@ public class BaseListener {
             Role role = (Role) data;
             role.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof User){
-            User user = (User) data;
+        else if(data instanceof AppUser){
+            AppUser user = (AppUser) data;
             user.setUuid(UUID.randomUUID());
         }
 

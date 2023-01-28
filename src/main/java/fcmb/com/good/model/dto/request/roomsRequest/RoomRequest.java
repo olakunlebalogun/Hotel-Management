@@ -3,8 +3,11 @@ package fcmb.com.good.model.dto.request.roomsRequest;
 import fcmb.com.good.model.dto.BaseDto;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import java.util.UUID;
 
 import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 
@@ -12,36 +15,39 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 public class RoomRequest  {
 
       @NotNull(message = INVALID_NAME)
-      @NotEmpty(message = INVALID_NAME)
-      private String room_type;
+      private UUID roomCategory;
+
+      @NotNull(message = INVALID_NAME)
+//      @NotEmpty(message = INVALID_NAME)
+      private Integer roomNumber;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      private String room_no;
+      private String description;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      private String room_description;
+      private String category;
 
       @NotNull(message = INVALID_NAME)
-      @NotEmpty(message = INVALID_NAME)
+      @Min(value=50, message = INVALID_NAME)
       private Double price;
 
-//      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-      private String room_status;
+      @NotNull(message = INVALID_NAME)
+      @NotEmpty(message = INVALID_NAME)
+      private String status;
 
 //      @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-      private String available_rooms;
+//      private String availableRooms;
 
 //      @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-      private String state;
+      private String photo;
 
-//      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-      private String current_customer;
+      @NotNull(message = INVALID_NAME)
+      private UUID createdBy;
 
+      private UUID uuid;
 
 }

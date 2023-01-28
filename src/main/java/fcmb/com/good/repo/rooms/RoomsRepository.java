@@ -1,5 +1,6 @@
 package fcmb.com.good.repo.rooms;
 
+import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,5 +19,9 @@ public interface RoomsRepository extends JpaRepository<Rooms, Long> {
 
     @Query("delete from Rooms st where st.uuid=:recordId")
     Optional<Rooms> deleteByUuid(@Param("recordId")UUID uuid);
+
+    Optional<Rooms> findByRoomNumber(Integer roomNumber);
+
+
 
 }

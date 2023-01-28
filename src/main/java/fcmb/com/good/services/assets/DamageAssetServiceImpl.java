@@ -37,11 +37,11 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
     }
 
     @Override
-    public ApiResponse<DamagedAssetsResponse> addDamageAssets(@RequestBody DamagedAssetsRequest request) {
+    public ApiResponse<String> addDamageAssets(@RequestBody DamagedAssetsRequest request) {
         DamagedAssets damagedAssets = Mapper.convertObject(request,DamagedAssets.class);
         damagedAssets=damagedAssetsRepository.save(damagedAssets);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(damagedAssets, DamagedAssetsResponse.class));
+                "Record Added Successfully");
     }
 
     @Override
@@ -63,7 +63,7 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
     }
 
     @Override
-    public ApiResponse<DamagedAssetsResponse> updateDamageAssets(UUID damagedAssetsId,
+    public ApiResponse<String> updateDamageAssets(UUID damagedAssetsId,
                                                                  @RequestBody DamagedAssetsRequest request) {
         DamagedAssets damagedAssets = validateDamagedAssets(damagedAssetsId);
         damagedAssets.setAsset_id(request.getAsset_id());
@@ -73,8 +73,8 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
         damagedAssets.setComment(request.getComment());
 
         damagedAssets = damagedAssetsRepository.save(damagedAssets);
-        return new ApiResponse<DamagedAssetsResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(damagedAssets,DamagedAssetsResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

@@ -42,12 +42,12 @@ public class UserTypeServiceImpl implements UserTypeService {
     }
 
     @Override
-    public ApiResponse<UserTypeResponse> addUserType(UserTypeRequest request) {
+    public ApiResponse<String> addUserType(UserTypeRequest request) {
         if(jwtFilter.isAdmin()){
             UserType type = Mapper.convertObject(request,UserType.class);
             type=userTypeRepository.save(type);
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertObject(type, UserTypeResponse.class));
+                    "Record Added Successfully");
         }
         return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
                 "You are not Authorized");
@@ -74,12 +74,12 @@ public class UserTypeServiceImpl implements UserTypeService {
     }
 
     @Override
-    public ApiResponse<UserTypeResponse> updateUserType(UUID userTypeId, UserTypeRequest request) {
+    public ApiResponse<String> updateUserType(UUID userTypeId, UserTypeRequest request) {
         UserType userType = validateUserType(userTypeId);
         userType.setType(request.getType());
         userType = userTypeRepository.save(userType);
-        return new ApiResponse<UserTypeResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(userType,UserTypeResponse.class));    }
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");    }
 
     @Override
     public ApiResponse<String> deleteUserType(UUID usertypeId) {

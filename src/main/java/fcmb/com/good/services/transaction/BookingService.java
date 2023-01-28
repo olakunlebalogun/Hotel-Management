@@ -13,11 +13,11 @@ public interface BookingService {
 
     ApiResponse<List<BookingResponse>> getListOfBooking(int page, int size);
 
-    ApiResponse<BookingResponse> addBooking(BookingRequest request);
+    ApiResponse<String> addBooking(BookingRequest request);
 
     ApiResponse<BookingResponse> getBookingById(UUID bookingId);
 
-    ApiResponse<BookingResponse> updateBooking( UUID bookingId, BookingRequest request);
+    ApiResponse<String> updateBooking( UUID bookingId, BookingRequest request);
 
     ApiResponse<String> deleteBooking(UUID bookingId);
 

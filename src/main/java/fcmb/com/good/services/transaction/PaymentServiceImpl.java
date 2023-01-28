@@ -39,11 +39,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public ApiResponse<PaymentResponse> addPayment(@RequestBody PaymentRequest request) {
+    public ApiResponse<String> addPayment(@RequestBody PaymentRequest request) {
         Payment payment = Mapper.convertObject(request,Payment.class);
         payment=paymentRepository.save(payment);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(payment,PaymentResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -65,7 +65,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public ApiResponse<PaymentResponse> updatePayment(UUID paymentId, @RequestBody PaymentRequest request) {
+    public ApiResponse<String> updatePayment(UUID paymentId, @RequestBody PaymentRequest request) {
         Payment payment = validatePayment(paymentId);
         payment.setCustomer_id(request.getCustomer_id());
         payment.setPayment_type(request.getPayment_type());
@@ -74,8 +74,8 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setPayment_details(request.getPayment_details());
 
         payment = paymentRepository.save(payment);
-        return new ApiResponse<PaymentResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(payment,PaymentResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

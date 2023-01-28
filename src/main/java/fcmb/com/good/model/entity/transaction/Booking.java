@@ -2,16 +2,16 @@ package fcmb.com.good.model.entity.transaction;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.products.Products;
+import fcmb.com.good.model.entity.rooms.RoomCategory;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,21 +20,23 @@ import java.util.List;
 @Table(name = "booking")
 public class Booking extends BaseEntity {
 
-    private Long customer_id;
-    private Long room_id;
     private Double price;
-    private String quantity;
     private Date check_in_date;
     private Date check_out_date;
-    private String night;
+    private Integer night;
+    private Double amount;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "customerId", insertable = true )
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id", insertable = false, updatable = false)
+    @JoinColumn(name = "roomId", insertable = true)
     private Rooms rooms;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "roomCategoryId", insertable = true)
+    private RoomCategory roomCategory;
 
     public Booking(){
 

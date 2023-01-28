@@ -40,11 +40,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public ApiResponse<MaintenanceResponse> addMaintenanceRequest(@RequestBody MaintenanceRequestRequest request) {
+    public ApiResponse<String> addMaintenanceRequest(@RequestBody MaintenanceRequestRequest request) {
         MaintenanceRequest maintenanceRequest = Mapper.convertObject(request,MaintenanceRequest.class);
         maintenanceRequest=maintenanceRequestRepository.save(maintenanceRequest);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(maintenanceRequest,MaintenanceResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -66,7 +66,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public ApiResponse<MaintenanceResponse> updateMaintenanceRequest(@RequestParam UUID maintenanceId,
+    public ApiResponse<String> updateMaintenanceRequest(@RequestParam UUID maintenanceId,
                                                                      @RequestBody MaintenanceRequestRequest request) {
         MaintenanceRequest maintenanceRequest = validateMaintenanceRequest(maintenanceId);
         maintenanceRequest.setMaintenance_category(request.getMaintenance_category());
@@ -79,8 +79,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenanceRequest.setMaintained_by(request.getMaintained_by());
 
         maintenanceRequest = maintenanceRequestRepository.save(maintenanceRequest);
-        return new ApiResponse<MaintenanceResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(maintenanceRequest,MaintenanceResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

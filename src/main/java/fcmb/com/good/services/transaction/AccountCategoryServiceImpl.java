@@ -37,11 +37,11 @@ public class AccountCategoryServiceImpl implements AccountCategoryService {
     }
 
     @Override
-    public ApiResponse<AccountCategoryResponse> addAccountCategory(@RequestBody AccountCategoryRequest request) {
+    public ApiResponse<String> addAccountCategory(@RequestBody AccountCategoryRequest request) {
         AccountCategory accountCategory = Mapper.convertObject(request,AccountCategory.class);
         accountCategory=accountCategoryRepository.save(accountCategory);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(accountCategory,AccountCategoryResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -63,15 +63,15 @@ public class AccountCategoryServiceImpl implements AccountCategoryService {
     }
 
     @Override
-    public ApiResponse<AccountCategoryResponse> updateAccountCategory(@RequestParam UUID accountCategoryId,
+    public ApiResponse<String> updateAccountCategory(@RequestParam UUID accountCategoryId,
                                                                       @RequestBody AccountCategoryRequest request) {
         AccountCategory accountCategory = validateAccountCategory(accountCategoryId);
         accountCategory.setCode(request.getCode());
         accountCategory.setCurrency(request.getCurrency());
 
         accountCategory = accountCategoryRepository.save(accountCategory);
-        return new ApiResponse<AccountCategoryResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(accountCategory,AccountCategoryResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record updated Successfully");
     }
 
     @Override

@@ -40,11 +40,11 @@ public class AccountChartServiceImpl implements AccountChartService {
     }
 
     @Override
-    public ApiResponse<AccountChartResponse> addAccountChart(@RequestBody AccountChartRequest request) {
+    public ApiResponse<String> addAccountChart(@RequestBody AccountChartRequest request) {
         AccountChart accountChart = Mapper.convertObject(request,AccountChart.class);
         accountChart=accountChartRepository.save(accountChart);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(accountChart,AccountChartResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -66,7 +66,7 @@ public class AccountChartServiceImpl implements AccountChartService {
     }
 
     @Override
-    public ApiResponse<AccountChartResponse> updateAccountChart(UUID accountChartId,
+    public ApiResponse<String> updateAccountChart(UUID accountChartId,
                                                                 @RequestBody AccountChartRequest request) {
         AccountChart accountChart = validateAccountChart(accountChartId);
         accountChart.setCategory_id(request.getCategory_id());
@@ -75,8 +75,8 @@ public class AccountChartServiceImpl implements AccountChartService {
         accountChart.setBalance(request.getBalance());
 
         accountChart = accountChartRepository.save(accountChart);
-        return new ApiResponse<AccountChartResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(accountChart,AccountChartResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
 
