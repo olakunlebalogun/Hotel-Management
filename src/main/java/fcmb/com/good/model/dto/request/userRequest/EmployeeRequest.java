@@ -6,6 +6,8 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static fcmb.com.good.utills.MessageUtil.*;
 
 @Data
@@ -58,5 +60,9 @@ public class EmployeeRequest  {
         @NotNull(message = INVALID_USERNAME)
         @NotEmpty(message = INVALID_USERNAME)
         private String role;
+
+        @NotNull(message = INVALID_USERNAME)
+//        @NotEmpty(message = INVALID_USERNAME)
+        private UUID createdById;
 
 }

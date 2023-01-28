@@ -40,11 +40,11 @@ public class ProductOrderServiceImpl implements ProductOrderService {
     }
 
     @Override
-    public ApiResponse<ProductOrderResponse> addProductOrder(@RequestBody ProductOrderRequest request) {
+    public ApiResponse<String> addProductOrder(@RequestBody ProductOrderRequest request) {
         ProductOrder productOrder = Mapper.convertObject(request,ProductOrder.class);
         productOrder=productOrderRepository.save(productOrder);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(productOrder,ProductOrderResponse.class));
+                "Record Added Successsfully");
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ProductOrderServiceImpl implements ProductOrderService {
     }
 
     @Override
-    public ApiResponse<ProductOrderResponse> updateProductOrder(UUID productOderId, @RequestBody ProductOrderRequest request) {
+    public ApiResponse<String> updateProductOrder(UUID productOderId, @RequestBody ProductOrderRequest request) {
         ProductOrder productOrder = validateProductOrder(productOderId);
         productOrder.setCustomer_id(request.getCustomer_id());
         productOrder.setProduct_id(request.getProduct_id());
@@ -79,8 +79,8 @@ public class ProductOrderServiceImpl implements ProductOrderService {
         productOrder.setOrder_state(request.getOrder_state());
 
         productOrder = productOrderRepository.save(productOrder);
-        return new ApiResponse<ProductOrderResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(productOrder,ProductOrderResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

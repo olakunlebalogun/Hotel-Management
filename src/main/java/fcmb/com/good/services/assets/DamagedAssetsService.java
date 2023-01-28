@@ -11,11 +11,11 @@ public interface DamagedAssetsService {
 
     ApiResponse<List<DamagedAssetsResponse>> getListOfDamageAssets(int page, int size);
 
-    ApiResponse<DamagedAssetsResponse> addDamageAssets(DamagedAssetsRequest request);
+    ApiResponse<String> addDamageAssets(DamagedAssetsRequest request);
 
     ApiResponse<DamagedAssetsResponse> getDamageAssetsById(UUID damagedAssetsId);
 
-    ApiResponse<DamagedAssetsResponse> updateDamageAssets(UUID damagedAssetsId, DamagedAssetsRequest request);
+    ApiResponse<String> updateDamageAssets(UUID damagedAssetsId, DamagedAssetsRequest request);
 
     ApiResponse<String> deleteDamageAssets(UUID damagedAssetsId);
 

@@ -58,19 +58,19 @@ public class AssetsController {
                                             //ADD_ASSETS
     @PostMapping(ADD_ASSETSCATEGORY)
     @ApiOperation(value = "Endpoint for adding new assetsCategory to database", response = String.class)
-    public ApiResponse<AssetsCategoryResponse> addAssetsCategory(@Valid @RequestBody AssetsCategoryRequest request) {
+    public ApiResponse<String> addAssetsCategory(@Valid @RequestBody AssetsCategoryRequest request) {
         return assetsCategoryService.addAssetsCategory(request);
     }
 
     @PostMapping(ADD_ASSET)
     @ApiOperation(value = "Endpoint for adding new assets to database", response = String.class)
-    public ApiResponse<AssetsResponse> addEmployee(@Valid @RequestBody AssetsRequest request) {
+    public ApiResponse<String> addEmployee(@Valid @RequestBody AssetsRequest request) {
         return assetsService.addAssets(request);
     }
 
     @PostMapping(ADD_DAMAGED_ASSET)
     @ApiOperation(value = "Endpoint for adding new damagedAssets to database", response = String.class)
-    public ApiResponse<DamagedAssetsResponse> addEmployeeShift(@Valid @RequestBody DamagedAssetsRequest request) {
+    public ApiResponse<String> addEmployeeShift(@Valid @RequestBody DamagedAssetsRequest request) {
         return damagedAssetsService.addDamageAssets(request);
     }
 
@@ -98,21 +98,21 @@ public class AssetsController {
                                             //UPDATE_ASSETS
     @PutMapping(UPDATE_ASSETSCATEGORY)
     @ApiOperation(value = "Endpoint for updating assetCategory by id from database", response = String.class)
-    public ApiResponse<AssetsCategoryResponse> updateAssetsCategory(@PathVariable(value = "id") UUID assetCategory_id,
+    public ApiResponse<String> updateAssetsCategory(@PathVariable(value = "id") UUID assetCategory_id,
                                                                     @RequestBody AssetsCategoryRequest request) {
         return assetsCategoryService.updateAssetsCategory(assetCategory_id, request);
     }
 
     @PutMapping(UPDATE_ASSET)
     @ApiOperation(value = "Endpoint for updating assets by id from database", response = String.class)
-    public ApiResponse<AssetsResponse> updateAssets(@PathVariable(value = "id") UUID assets_id,
+    public ApiResponse<String> updateAssets(@PathVariable(value = "id") UUID assets_id,
                                                     @RequestBody AssetsRequest request) {
         return assetsService.updateAssets(assets_id, request);
     }
 
     @PutMapping(UPDATE_DAMAGED_ASSET)
     @ApiOperation(value = "Endpoint for updating damagedAssets by id from database", response = String.class)
-    public ApiResponse<DamagedAssetsResponse> updateDamageAssets(@PathVariable(value = "id") UUID damagedAssets_id,
+    public ApiResponse<String> updateDamageAssets(@PathVariable(value = "id") UUID damagedAssets_id,
                                                                 @RequestBody DamagedAssetsRequest request) {
         return damagedAssetsService.updateDamageAssets(damagedAssets_id, request);
     }

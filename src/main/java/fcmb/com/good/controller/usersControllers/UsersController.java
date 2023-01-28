@@ -3,7 +3,6 @@ package fcmb.com.good.controller.usersControllers;
 import fcmb.com.good.model.dto.request.userRequest.*;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.userResponse.*;
-import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.services.others.UploadService;
 import fcmb.com.good.services.user.*;
 import io.swagger.annotations.ApiOperation;
@@ -84,46 +83,46 @@ public class UsersController  {
                                     //ADD_USERS
     @PostMapping(ADD_CUSTOMER)
     @ApiOperation(value = "Endpoint for adding new customer to database", response = String.class)
-    public ApiResponse<CustomerResponse> addCustomer(@Valid @RequestBody CustomerRequest request) throws IOException {
+    public ApiResponse<String> addCustomer(@Valid @RequestBody CustomerRequest request) throws IOException {
         return customerService.addCustomer(request);
     }
 
     @PostMapping(ADD_EMPLOYEE)
     @ApiOperation(value = "Endpoint for adding new employee to database", response = String.class)
-    public ApiResponse<EmployeeResponse> addEmployee(@Valid @RequestBody EmployeeRequest request) {
+    public ApiResponse<String> addEmployee(@Valid @RequestBody EmployeeRequest request) {
         return employeeService.addEmployee(request);
     }
 
     @PostMapping(ADD_EMPLOYEESHIFT)
     @ApiOperation(value = "Endpoint for adding new employeeShift to database", response = String.class)
-    public ApiResponse<EmployeeShiftResponse> addEmployeeShift(@Valid @RequestBody EmployeeShiftRequest request) {
+    public ApiResponse<String> addEmployeeShift(@Valid @RequestBody EmployeeShiftRequest request) {
         return employeeShiftService.addEmployeeShift(request);
     }
 
     @PostMapping(ADD_USER)
     @ApiOperation(value = "Endpoint for adding new user to database", response = String.class)
-    public ApiResponse<UserResponse> addUsers(@Valid @RequestBody UserRequest request) {
+    public ApiResponse<String> addUsers(@Valid @RequestBody UserRequest request) {
         return userService.addUsers(request);
     }
 
     @PostMapping(ADD_ROLE)
     @ApiOperation(value = "Endpoint for adding new role to database", response = String.class)
-    public ApiResponse<RoleResponse> addRole(@Valid @RequestBody RoleRequest request) {
+    public ApiResponse<String> addRole(@Valid @RequestBody RoleRequest request) {
         return roleService.addRole(request);
     }
 
     @PostMapping(ADD_USERTYPE)
     @ApiOperation(value = "Endpoint for adding new usertype to database", response = String.class)
-    public ApiResponse<UserTypeResponse> addUserType(@Valid @RequestBody UserTypeRequest request) {
+    public ApiResponse<String> addUserType(@Valid @RequestBody UserTypeRequest request) {
         return userTypeService.addUserType(request);
     }
 
-    @PostMapping(ADD_IMAGE)
-    @ApiOperation(value = "Upload profile picture of User", response = String.class,
-            produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Document uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
-        return uploadService.uploadFile(file);
-    }
+//    @PostMapping(ADD_IMAGE)
+//    @ApiOperation(value = "Upload profile picture of User", response = String.class,
+//            produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ApiResponse uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
+//        return uploadService.uploadFile(file);
+//    }
 
 
                                          //FIND_USERS_BY_ID
@@ -167,43 +166,43 @@ public class UsersController  {
                                         //UPDATE_USERS
     @PutMapping(UPDATE_CUSTOMER)
     @ApiOperation(value = "Endpoint for updating customer by id from database", response = String.class)
-    public ApiResponse<CustomerResponse> updateCustomer(@PathVariable(value = "id") UUID customer_id,
-                                                       @RequestBody CustomerRequest cus) {
+    public ApiResponse<String> updateCustomer(@PathVariable(value = "id") UUID customer_id,
+                                              @RequestBody CustomerRequest cus) {
         return customerService.updateCustomer(customer_id, cus);
     }
 
     @PutMapping(UPDATE_EMPLOYEE)
     @ApiOperation(value = "Endpoint for updating employee by id from database", response = String.class)
-    public ApiResponse<EmployeeResponse> updateEmployee(@PathVariable(value = "id") UUID employee_id,
-                                                        @RequestBody EmployeeRequest employee) {
+    public ApiResponse<String> updateEmployee(@PathVariable(value = "id") UUID employee_id,
+                                              @RequestBody EmployeeRequest employee) {
         return employeeService.updateEmployee(employee_id, employee);
     }
 
     @PutMapping(UPDATE_EMPLOYEESHIFT)
     @ApiOperation(value = "Endpoint for updating employeeShift by id from database", response = String.class)
-    public ApiResponse<EmployeeShiftResponse> updateEmployeeShift(@PathVariable(value = "id") UUID employeeShift_id,
-                                                                  @RequestBody EmployeeShiftRequest request) {
+    public ApiResponse<String> updateEmployeeShift(@PathVariable(value = "id") UUID employeeShift_id,
+                                                   @RequestBody EmployeeShiftRequest request) {
         return employeeShiftService.updateEmployeeShift(employeeShift_id, request);
     }
 
     @PutMapping(UPDATE_USER)
     @ApiOperation(value = "Endpoint for updating user by id from database", response = String.class)
-    public ApiResponse<UserResponse> updateUsers(@PathVariable(value = "id") UUID user_id,
-                                                 @RequestBody UserRequest request) {
+    public ApiResponse<String> updateUsers(@PathVariable(value = "id") UUID user_id,
+                                           @RequestBody UserRequest request) {
         return userService.updateUser(user_id, request);
     }
 
     @PutMapping(UPDATE_USERTYPE)
     @ApiOperation(value = "Endpoint for updating usertype by id from database", response = String.class)
-    public ApiResponse<UserTypeResponse> updateUserType(@PathVariable(value = "id") UUID userType_id,
-                                                @RequestBody UserTypeRequest request) {
+    public ApiResponse<String> updateUserType(@PathVariable(value = "id") UUID userType_id,
+                                              @RequestBody UserTypeRequest request) {
         return userTypeService.updateUserType(userType_id, request);
     }
 
     @PutMapping(UPDATE_ROLE)
     @ApiOperation(value = "Endpoint for updating roles by id from database", response = String.class)
-    public ApiResponse<RoleResponse> updateRole(@PathVariable(value = "id") UUID role_id,
-                                                @RequestBody RoleRequest request) {
+    public ApiResponse<String> updateRole(@PathVariable(value = "id") UUID role_id,
+                                          @RequestBody RoleRequest request) {
         return roleService.updateRole(role_id, request);
     }
 
@@ -223,7 +222,7 @@ public class UsersController  {
 
     @DeleteMapping(DELETE_EMPLOYEESHIFT)
     @ApiOperation(value = "Endpoint for deleting employeeShift by id from database", response = String.class)
-    public ApiResponse<EmployeeShiftResponse> deleteEmployeeShift(@PathVariable(value = "id") UUID employeeShift_id) {
+    public ApiResponse<String> deleteEmployeeShift(@PathVariable(value = "id") UUID employeeShift_id) {
         return employeeShiftService.deleteEmployeeShift(employeeShift_id);
     }
 
@@ -245,20 +244,65 @@ public class UsersController  {
         return userTypeService.deleteUserType(userType_id);
     }
 
-    //change password
+                                //Change Password
     @PutMapping(CHANGE_USER_PASSWORD)
     @ApiOperation(value = "Endpoint for updating users password from database", response = String.class)
-    public ApiResponse<changeUserPasswordResponse> changeUserPassword(@RequestBody changeUserPasswordRequest request, String email) {
+    public ApiResponse<String> changeUserPassword(@RequestBody changeUserPasswordRequest request, String email) {
         return userService.changeUserPassword(email, request);
     }
 
+    @PutMapping(CHANGE_CUSTOMER_PASSWORD)
+    @ApiOperation(value = "Endpoint for updating customer password from database", response = String.class)
+    public ApiResponse<String> changeCustomerPassword(@RequestBody changeCustomerPasswordRequest request, String email) {
+        return customerService.changeCustomerPassword(email, request);
+    }
 
-    //Forgot Password
+    @PutMapping(CHANGE_EMPLOYEE_PASSWORD)
+    @ApiOperation(value = "Endpoint for updating employee password from database", response = String.class)
+    public ApiResponse<String> changeEmployeePassword(@RequestBody changeEmployeePasswordRequest request, String email) {
+        return employeeService.changeEmployeePassword(email, request);
+    }
+
+
+                                        //Forgot Password
     @GetMapping(FORGOT_USER_PASSWORD)
     @ApiOperation(value = "Endpoint for getting forgotten users password from database", response = String.class)
-    public ApiResponse<forgotUserPasswordResponse> forgotUserPassword(String email) throws MessagingException {
+    public ApiResponse<String> forgotUserPassword(String email) throws MessagingException {
         return userService.forgotUserPassword(email);
     }
+
+    @GetMapping(FORGOT_CUSTOMER_PASSWORD)
+    @ApiOperation(value = "Endpoint for getting forgotten customer password from database", response = String.class)
+    public ApiResponse<String> forgotCustomerPassword(String email) throws MessagingException {
+        return customerService.forgotCustomerPassword(email);
+    }
+
+    @GetMapping(FORGOT_EMPLOYEE_PASSWORD)
+    @ApiOperation(value = "Endpoint for getting forgotten employee password from database", response = String.class)
+    public ApiResponse<String> forgotEmployeePassword(String email) throws MessagingException {
+        return employeeService.forgotEmployeePassword(email);
+    }
+
+
+                                        //login Users
+    @PostMapping(LOGIN_USER)
+    @ApiOperation(value = "Endpoint to login users to database", response = String.class)
+    public ApiResponse<String> loginUser(@RequestBody loginUserRequest request, String email) {
+        return userService.loginUser(email, request);
+    }
+
+    @PostMapping(LOGIN_CUSTOMER)
+    @ApiOperation(value = "Endpoint to login customer to database", response = String.class)
+    public ApiResponse<String> loginCustomer(@RequestBody loginCustomerRequest request, String email) {
+        return customerService.loginCustomer(email, request);
+    }
+
+    @PostMapping(LOGIN_EMPLOYEE)
+    @ApiOperation(value = "Endpoint to login employee to database", response = String.class)
+    public ApiResponse<String> loginEmployee(@RequestBody loginEmployeeRequest request, String email) {
+        return employeeService.loginEmployee(email, request);
+    }
+
 
 
 }

@@ -30,17 +30,16 @@ public class RoleServiceImpl implements RoleService {
         if(roleList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        return new ApiResponse<>(AppStatus.SUCCESS.label,
-                HttpStatus.OK.value(),
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertList(roleList, RoleResponse.class));
     }
 
     @Override
-    public ApiResponse<RoleResponse> addRole(@RequestBody RoleRequest request) {
+    public ApiResponse<String> addRole(@RequestBody RoleRequest request) {
         Role role = Mapper.convertObject(request,Role.class);
         role=roleRepository.save(role);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(role, RoleResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -62,12 +61,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public ApiResponse<RoleResponse> updateRole(UUID roleId, @RequestBody RoleRequest request) {
+    public ApiResponse<String> updateRole(UUID roleId, @RequestBody RoleRequest request) {
         Role role = validateRole(roleId);
         role.setDepartment(request.getDepartment());
         role = roleRepository.save(role);
-        return new ApiResponse<RoleResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(role,RoleResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

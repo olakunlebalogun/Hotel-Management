@@ -13,11 +13,11 @@ public interface ProductPurchaseService {
 
      ApiResponse<List<ProductPurchaseResponse>> getListOfProductPurchase(int page, int size);
 
-    ApiResponse<ProductPurchaseResponse> addProductPurchase(ProductPurchaseRequest request);
+    ApiResponse<String> addProductPurchase(ProductPurchaseRequest request);
 
     ApiResponse<ProductPurchaseResponse> getProductPurchaseById(UUID productPurchaseId);
 
-    ApiResponse<ProductPurchaseResponse> updateProductPurchase( UUID productPurchaseId, ProductPurchaseRequest request);
+    ApiResponse<String> updateProductPurchase( UUID productPurchaseId, ProductPurchaseRequest request);
 
     ApiResponse<String>deleteProductPurchase(UUID productPurchaseId);
 

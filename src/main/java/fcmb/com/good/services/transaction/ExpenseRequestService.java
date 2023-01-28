@@ -13,11 +13,11 @@ public interface ExpenseRequestService {
 
     ApiResponse<List<ExpenseRequestResponse>> getListOfExpenseRequest(int page, int size);
 
-    ApiResponse<ExpenseRequestResponse> addExpenseRequest(ExpenseRequestRequest request);
+    ApiResponse<String> addExpenseRequest(ExpenseRequestRequest request);
 
     ApiResponse<ExpenseRequestResponse> getExpenseRequestById(UUID expenseRequestId);
 
-    ApiResponse<ExpenseRequestResponse> updateExpenseRequest( UUID expenseRequestId, ExpenseRequestRequest request);
+    ApiResponse<String> updateExpenseRequest( UUID expenseRequestId, ExpenseRequestRequest request);
 
     ApiResponse<String> deleteExpenseRequest(UUID expenseRequestId);
 

@@ -39,11 +39,11 @@ public class BookingReminderServiceImpl implements BookingReminderService {
     }
 
     @Override
-    public ApiResponse<BookingReminderResponse> addBookingReminder(@RequestBody BookingReminderRequest request) {
+    public ApiResponse<String> addBookingReminder(@RequestBody BookingReminderRequest request) {
         BookingReminder bookingReminder = Mapper.convertObject(request,BookingReminder.class);
         bookingReminder=bookingReminderRepository.save(bookingReminder);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(bookingReminder,BookingReminderResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -65,7 +65,7 @@ public class BookingReminderServiceImpl implements BookingReminderService {
     }
 
     @Override
-    public ApiResponse<BookingReminderResponse> updateBookingReminder(@RequestParam UUID bookingReminderId,
+    public ApiResponse<String> updateBookingReminder(@RequestParam UUID bookingReminderId,
                                                                       @RequestBody BookingReminderRequest request) {
         BookingReminder bookingReminder = validateBookingReminder(bookingReminderId);
         bookingReminder.setCustomer_id(request.getCustomer_id());
@@ -74,8 +74,8 @@ public class BookingReminderServiceImpl implements BookingReminderService {
         bookingReminder.setStatus(request.getStatus());
 
         bookingReminder = bookingReminderRepository.save(bookingReminder);
-        return new ApiResponse<BookingReminderResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(bookingReminder,BookingReminderResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

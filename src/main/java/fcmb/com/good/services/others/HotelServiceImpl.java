@@ -38,11 +38,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ApiResponse<HotelResponse> addHotel(@RequestBody HotelRequest request) {
+    public ApiResponse<String> addHotel(@RequestBody HotelRequest request) {
         Hotel hotel = Mapper.convertObject(request,Hotel.class);
         hotel=hotelRepository.save(hotel);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(hotel,HotelResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -64,7 +64,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ApiResponse<HotelResponse> updateHotel(UUID hotelId, @RequestBody HotelRequest request) {
+    public ApiResponse<String> updateHotel(UUID hotelId, @RequestBody HotelRequest request) {
         Hotel hotel = validateHotel(hotelId);
         hotel.setName(request.getName());
         hotel.setEmail(request.getEmail());
@@ -75,8 +75,8 @@ public class HotelServiceImpl implements HotelService {
         hotel.setPhone(request.getPhone());
 
         hotel = hotelRepository.save(hotel);
-        return new ApiResponse<HotelResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(hotel,HotelResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

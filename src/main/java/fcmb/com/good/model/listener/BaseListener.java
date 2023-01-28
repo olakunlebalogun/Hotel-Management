@@ -6,7 +6,7 @@ import fcmb.com.good.model.entity.assets.DamagedAssets;
 import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.others.Hotel;
 import fcmb.com.good.model.entity.products.*;
-import fcmb.com.good.model.entity.rooms.RoomType;
+import fcmb.com.good.model.entity.rooms.RoomCategory;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.services.ServiceRequest;
 import fcmb.com.good.model.entity.services.Services;
@@ -62,8 +62,8 @@ public class BaseListener {
             Product product = (Product) data;
             product.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof RoomType){
-            RoomType roomType = (RoomType) data;
+        else if(data instanceof RoomCategory){
+            RoomCategory roomType = (RoomCategory) data;
             roomType.setUuid(UUID.randomUUID());
         }
         else if(data instanceof ServiceRequest){

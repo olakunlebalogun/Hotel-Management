@@ -39,11 +39,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public ApiResponse<ExpenseResponse> addExpense(@RequestBody ExpenseRequest request) {
+    public ApiResponse<String> addExpense(@RequestBody ExpenseRequest request) {
         Expenses expenses = Mapper.convertObject(request,Expenses.class);
         expenses=expensesRepository.save(expenses);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(expenses,ExpenseResponse.class));
+                "Record added Successfully");
     }
 
     @Override
@@ -65,14 +65,14 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public ApiResponse<ExpenseResponse> updateExpense(UUID expenseId, @RequestBody ExpenseRequest request) {
+    public ApiResponse<String> updateExpense(UUID expenseId, @RequestBody ExpenseRequest request) {
         Expenses expenses = validateExpenses(expenseId);
         expenses.setExpense_type(request.getExpense_type());
         expenses.setDescription(request.getDescription());
 
         expenses = expensesRepository.save(expenses);
-        return new ApiResponse<ExpenseResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(expenses,ExpenseResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override

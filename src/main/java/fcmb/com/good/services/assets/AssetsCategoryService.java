@@ -15,11 +15,11 @@ public interface AssetsCategoryService {
 
     ApiResponse<List<AssetsCategoryResponse>> getListOfAssetsCategory(int page, int size);
 
-    ApiResponse<AssetsCategoryResponse> addAssetsCategory(AssetsCategoryRequest payload);
+    ApiResponse<String> addAssetsCategory(AssetsCategoryRequest payload);
 
     ApiResponse<AssetsCategoryResponse> getAssetsCategoryById(UUID assetsCategoryId);
 
-    ApiResponse<AssetsCategoryResponse> updateAssetsCategory(UUID assetsCategoryId, AssetsCategoryRequest request);
+    ApiResponse<String> updateAssetsCategory(UUID assetsCategoryId, AssetsCategoryRequest request);
 
     ApiResponse<String> deleteAssetsCategory(UUID assetsCategoryId);
 
