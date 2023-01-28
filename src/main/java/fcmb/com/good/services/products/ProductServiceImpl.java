@@ -73,11 +73,11 @@ private final UserRepository userRepository;
                 Mapper.convertObject(products, ProductResponse.class));
     }
 
-private void validateDuplicationProduct(String name){
+    private void validateDuplicationProduct(String name){
         Optional<Product> existingProduct = productRepository.findByName(name);
         if(existingProduct.isPresent())
             throw new RecordNotFoundException("Duplicate record");
-}
+    }
     @Override
     public ApiResponse<String> updateProduct(UUID productId,ProductRequest request) {
         if(jwtFilter.isAdmin()){
