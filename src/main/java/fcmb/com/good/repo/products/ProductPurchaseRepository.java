@@ -25,4 +25,6 @@ public interface ProductPurchaseRepository extends JpaRepository<ProductPurchase
 
 
     List<ProductPurchase> findAllByDateCreatedBetween(LocalDateTime startDate, LocalDateTime endDate);
+
+
 }
