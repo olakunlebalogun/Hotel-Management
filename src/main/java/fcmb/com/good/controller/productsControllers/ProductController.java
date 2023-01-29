@@ -234,6 +234,17 @@ public class ProductController {
     }
 
 
+    @GetMapping(FIND_PRODUCT_PURCHASE)
+    @ApiOperation(value = "Endpoint for fetching the list of product purchase by day", response = ProductPurchaseResponse.class, responseContainer = "List")
+    public ApiResponse<List<ProductPurchaseResponse>> getProductPurchaseByDay(String dayDate) {
+        return productPurchaseService.fetchByDay(dayDate);
+    }
+
+    @GetMapping(LIST_PRODUCT_PURCHASE_BY_DATE_RANGE)
+    @ApiOperation(value = "Endpoint for fetching the list of product purchase by date range", response = ProductPurchaseResponse.class, responseContainer = "List")
+    public ApiResponse<List<ProductPurchaseResponse>> getProductPurchaseByDateRange(String startDate, String endDate) {
+        return productPurchaseService.fetchByDateRange(startDate, endDate);
+    }
 
 
 }

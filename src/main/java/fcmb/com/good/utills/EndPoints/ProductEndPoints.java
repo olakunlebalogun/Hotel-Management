@@ -26,6 +26,8 @@ public class ProductEndPoints {
     public static final String FIND_PRODUCT_PURCHASE_BY_ID= PRODUCT_PURCHASE+"/{id}";
     public static final String UPDATE_PRODUCT_PURCHASE= PRODUCT_PURCHASE+"/update/{id}";
     public static final String DELETE_PRODUCT_PURCHASE= PRODUCT_PURCHASE+"/delete/{id}";
+    public static  final  String LIST_PRODUCT_PURCHASE_BY_DAY= FIND_PRODUCT_PURCHASE +"/by_day";
+    public static  final  String LIST_PRODUCT_PURCHASE_BY_DATE_RANGE= FIND_PRODUCT_PURCHASE +"/date_range";
 
     public static final String PRODUCT="/products";
     public static final String FIND_PRODUCT=PRODUCT+"/list";

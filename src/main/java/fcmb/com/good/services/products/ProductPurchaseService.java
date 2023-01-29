@@ -5,6 +5,7 @@ import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductPurchaseResponse;
 import fcmb.com.good.model.entity.products.ProductPurchase;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +21,9 @@ public interface ProductPurchaseService {
     ApiResponse<String> updateProductPurchase( UUID productPurchaseId, ProductPurchaseRequest request);
 
     ApiResponse<String>deleteProductPurchase(UUID productPurchaseId);
+    ApiResponse<List<ProductPurchaseResponse>> fetchByDay (String fetchDay);
+
+    ApiResponse<List<ProductPurchaseResponse>> fetchByDateRange (String startDate, String endDate);
 
 
 

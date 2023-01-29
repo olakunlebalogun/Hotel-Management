@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -80,6 +80,26 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
                 "Record Deleted successfully");
     }
 
+    @Override
+    public ApiResponse<List<ProductPurchaseResponse>> fetchByDay(String fetchDay) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String day = fetchDay.split(" ")[0];
+        String dayBegins = day + " 00:00:00";
+        LocalDateTime formattedDayBegins = LocalDateTime.parse(dayBegins, formatter);
+        String dayEnds = day + " 23:59:59";
+        LocalDateTime formattedDayEnds = LocalDateTime.parse(dayEnds, formatter);
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertList(productPurchaseRepository.findAllByDateCreatedBetween(formattedDayBegins, formattedDayEnds), ProductPurchaseResponse.class));
+    }
+
+    @Override
+    public ApiResponse<List<ProductPurchaseResponse>> fetchByDateRange(String startDate, String endDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime formattedStartDate  = LocalDateTime.parse(startDate, formatter);
+        LocalDateTime formattedEndDate = LocalDateTime.parse(endDate, formatter);
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertList( productPurchaseRepository.findAllByDateCreatedBetween(formattedStartDate, formattedEndDate), ProductPurchaseResponse.class));
+    }
 
 
 }

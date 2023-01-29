@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,5 +20,9 @@ public interface ProductPurchaseRepository extends JpaRepository<ProductPurchase
     @Query("delete from ProductPurchase st where st.uuid=:recordId")
     Optional<ProductPurchase> deleteByUuid(@Param("recordId")UUID uuid);
 
+    @Query(value = "SELECT tb FROM ProductPurchase tb where tb.dateCreated=:day")
+    List<ProductPurchase> listByDay (LocalDateTime day);
 
+
+    List<ProductPurchase> findAllByDateCreatedBetween(LocalDateTime startDate, LocalDateTime endDate);
 }
