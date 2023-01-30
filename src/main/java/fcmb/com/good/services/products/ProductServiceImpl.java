@@ -35,8 +35,8 @@ public class ProductServiceImpl implements ProductService {
     private final UserRepository userRepository;
 
     /**
-     * @Finding the list of all products*
-     * @Validate if the List of products is empty otherwise return record not found*
+     * Finding the list of all products*
+     * Validate if the List of products is empty otherwise return record not found*
      * @return the list of products and a Success Message* *
      * * */
     @Override
@@ -55,8 +55,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     /**
      * @Search the list of all products by name
-     * @Validate if the List of products is empty otherwise return record not found*
-     * @return the list of products by name* *
+     * Validate if the List of products is empty otherwise return record not found*
+     * @return the list of products by name
      * * */
     public List<Product> searchProductsByName(String name) {
         List<Product> searchProductsByName = productRepository.searchProductsByName(name);
@@ -70,9 +70,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     /**
      * @Search the list of all products by category*
-     * @Validate if the List of productCategory is empty otherwise return record not found*
+     * Validate if the List of productCategory is empty otherwise return record not found*
      * @return the list of products by categoryName* *
-     * * */
+     *
+     * */
     public List<Product> searchProductsByProductCategory(String productCategory) {
         List<Product> searchProductsByProductCategory = productRepository.searchProductsByProductCategory(productCategory);
 
@@ -86,8 +87,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     /**
-     * @Finding the list of all productOptional by uuid*
-     * @Validate if the List of productOptional is empty otherwise return record not found
+     * Finding the list of all productOptional by uuid*
+     * Validate if the List of productOptional is empty otherwise return record not found
      * Create the product definition and get the product Optional by uuid
      * @return the list of products and a Success Message* *
      * * */
@@ -97,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
         Product product = productOptional.get();
-        return new ApiResponse<ProductResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(product, ProductResponse.class));
     }
 
@@ -105,16 +106,16 @@ public class ProductServiceImpl implements ProductService {
     /**
      * @return product
      * *
-     * @validating products by uuid*
-     * @Validate if products is empty otherwise return record not found
+     * validating products by uuid*
+     * Validate if products is empty otherwise return record not found
      */
     private Product validateProducts(UUID uuid) {
         return productRepository.findByUuid(uuid).orElseThrow(() -> new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
     }
 
     /**
-     * @Validating existingProductOptional by name*
-     * @Validate if the List of existingProductOptional is empty otherwise return Duplicate Record*
+     * Validating existingProductOptional by name*
+     * Validate if the List of existingProductOptional is empty otherwise return Duplicate Record*
      * *
      */
 
@@ -128,9 +129,9 @@ public class ProductServiceImpl implements ProductService {
     /**
      * @return success message* *
      * *
-     * @Validate that no duplicate product allow*
-     * @Validate that product category exists otherwise return record not found*
-     * @Validate that user creating the product exists, otherwise return user not found*
+     * Validate that no duplicate product allow*
+     * Validate that product category exists otherwise return record not found*
+     * Validate that user creating the product exists, otherwise return user not found*
      * Create the product definition and save
      */
     @Override
@@ -165,8 +166,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     /**
-     * @Validating the list of existingProductCategory by uuid*
-     * @Validate if the List of existingProductCategory is empty otherwise return record not found
+     * Validating the list of existingProductCategory by uuid*
+     * Validate if the List of existingProductCategory is empty otherwise return record not found
      * Create the product definition and save
      * @return a Success Message* *
      * * */
@@ -189,23 +190,23 @@ public class ProductServiceImpl implements ProductService {
         product.setPurchasedPrice(request.getPurchasedPrice());
         product.setProductsCategory(request.getProductsCategory());
 
-        product = productRepository.save(product);
-        return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+        productRepository.save(product);
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record updated successfully");
     }
 
 
     @Override
     /**
-     * @validating products by uuid*
-     * @Validate if products is empty otherwise return record not found
+     * validating products by uuid*
+     * Validate if products is empty otherwise return record not found
      * @Delete product
      * @return a Success Message* *
      * * */
     public ApiResponse<String> deleteProduct(UUID productId) {
         Product product = validateProducts(productId);
         productRepository.delete(product);
-        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Deleted successfully");
     }
 
