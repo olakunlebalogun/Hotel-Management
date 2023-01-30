@@ -18,7 +18,10 @@ public class ProductPurchase extends BaseEntity {
     private Long product_id;
     private String description;
     private String company_name;
-    private String quantity;
+
+    // Had to change the quantity from String to Integer
+    private Integer quantity;
+
     private Double price;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

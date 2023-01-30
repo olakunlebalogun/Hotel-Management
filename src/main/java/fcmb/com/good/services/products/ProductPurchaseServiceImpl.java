@@ -82,7 +82,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
     @Override
     public ApiResponse<List<ProductPurchaseResponse>> fetchByDay(String fetchDay) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String day = fetchDay.split(" ")[0];
         String dayBegins = day + " 00:00:00";
         LocalDateTime formattedDayBegins = LocalDateTime.parse(dayBegins, formatter);
@@ -94,7 +94,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
     @Override
     public ApiResponse<List<ProductPurchaseResponse>> fetchByDateRange(String startDate, String endDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime formattedStartDate  = LocalDateTime.parse(startDate, formatter);
         LocalDateTime formattedEndDate = LocalDateTime.parse(endDate, formatter);
 
