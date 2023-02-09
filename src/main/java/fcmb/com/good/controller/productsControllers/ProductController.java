@@ -234,7 +234,7 @@ public class ProductController {
     }
 
 
-    @GetMapping(FIND_PRODUCT_PURCHASE)
+    @GetMapping(FIND_PRODUCT_PURCHASE_BY_DAY)
     @ApiOperation(value = "Endpoint for fetching the list of product purchase by day", response = ProductPurchaseResponse.class, responseContainer = "List")
     public ApiResponse<List<ProductPurchaseResponse>> getProductPurchaseByDay(String dayDate) {
         return productPurchaseService.fetchByDay(dayDate);

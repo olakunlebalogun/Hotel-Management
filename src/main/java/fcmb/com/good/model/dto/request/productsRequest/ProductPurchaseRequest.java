@@ -25,7 +25,7 @@ public class ProductPurchaseRequest  {
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     private String quantity;
+     private Integer quantity;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
